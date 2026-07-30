@@ -26,6 +26,8 @@
     4 (before practical info), 5 (footer). Put your drawing inside one:
         [img src="my-drawing.png" alt=""]     (use angle brackets < >)
     Save your image file in the same folder as this HTML file.
+  · On computer screens there is empty space either side of the brochure:
+    search for "SIDE ART" and put an [img] in the left / right divs there.
   · To DRAW A FULL-PAGE BACKGROUND that shows behind everything:
     search for "YOUR BACKGROUND IMAGE" in the style block below and
     follow the instruction on that line. A wide, dark image works best;
@@ -86,6 +88,19 @@
     /* background-image: url('my-background.png'); */
     /* background-size: cover; background-position: center; */
   }
+
+  /* SIDE ART: two panels that fill the empty space beside the brochure on
+     computer screens (hidden on phones, which have no side space).
+     Put an <img> inside the .side-art.left / .side-art.right divs below. */
+  .side-art{
+    position: fixed; top: 0; bottom: 0; width: calc((100vw - 480px) / 2);
+    display: none; align-items: center; justify-content: center;
+    z-index: -1; pointer-events: none;
+  }
+  .side-art.left{ left: 0; }
+  .side-art.right{ right: 0; }
+  .side-art img{ max-width: 82%; max-height: 78vh; }
+  @media (min-width: 900px){ .side-art{ display: flex; } }
 
   /* Reserved blank areas inside the flow — empty on purpose, for hand-drawn art.
      They inherit the plain background so anything you draw sits seamlessly. */
@@ -177,8 +192,8 @@
   .node text{ fill: var(--gold); font-family: var(--font-mono); font-size:9px; font-weight:700; text-anchor:middle; dominant-baseline:central; pointer-events:none; }
   .node.dim circle{ opacity:.18; filter:none; }
   .node.dim text{ opacity:.25; }
-  .node.active circle{ fill: var(--gold); stroke: var(--parchment); }
-  .node.active text{ fill: #2b1a04; }
+  .node.active circle{ fill: var(--ink); stroke: var(--gold); stroke-width: 2.8; filter: drop-shadow(0 0 5px rgba(255,182,72,.9)); }
+  .node.active text{ fill: var(--gold); }
   .route-line{ fill:none; stroke: var(--gold); stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:5 5; opacity:0; transition: opacity .3s; }
   .route-line.on{ opacity:1; }
   @media (prefers-reduced-motion: no-preference){
@@ -267,6 +282,12 @@
   .trail-card.t-free .next-hint{ color: #ffd08f; }
 
   /* map: trail lines and pressed chips take their trail's colour */
+  .route-chev{ opacity: 0; transition: opacity .3s; fill: var(--gold); }
+  .route-chev.on{ opacity: 1; }
+  .route-chev[data-route="culture"]{ fill: var(--z-museum); }
+  .route-chev[data-route="play"]{ fill: var(--cyan); }
+  .route-chev[data-route="aesthetic"]{ fill: var(--magenta); }
+  .route-chev[data-route="popular"]{ fill: var(--parchment); }
   .route-line[data-route="culture"]{ stroke: var(--z-museum); }
   .route-line[data-route="play"]{ stroke: var(--cyan); }
   .route-line[data-route="aesthetic"]{ stroke: var(--magenta); }
@@ -425,7 +446,7 @@
     html, body{ background: #081619; }
     .sky{ position: absolute; }
     .page{ max-width: 100%; padding-bottom: 0; border: none; box-shadow: none; }
-    .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link{ display: none; }
+    .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link, .side-art{ display: none; }
     .section{ padding-left: 12mm; padding-right: 12mm; }
     .hero{ padding-left: 12mm; padding-right: 12mm; }
     #map, #routes, #popular, #nearme, #info{ break-before: page; padding-top: 12mm; }
@@ -443,6 +464,11 @@
 </style>
 
 <div class="sky" aria-hidden="true"></div>
+
+<!-- SIDE ART (computer screens only): put your <img> inside these two divs,
+     e.g. <img src="merlion.png" alt=""> — left and right of the brochure -->
+<div class="side-art left" aria-hidden="true"></div>
+<div class="side-art right" aria-hidden="true"></div>
 
 <svg style="display:none">
   <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.58 7-13A7 7 0 0 0 5 9c0 5.42 7 13 7 13Z"/><circle cx="12" cy="9" r="2.4"/></symbol>
@@ -1018,6 +1044,33 @@
     }
   });
 
+  // ---- direction arrowheads along each map route (visible when the route is lit) ----
+  var firstNode = svgm.querySelector(".node");
+  Array.prototype.slice.call(svgm.querySelectorAll(".route-line")).forEach(function(pathEl){
+    var route = pathEl.getAttribute("data-route");
+    var pts = pathEl.getAttribute("d").replace(/[ML]/g, " ").trim().split(/\s+/).map(function(p){
+      var xy = p.split(",");
+      return [parseFloat(xy[0]), parseFloat(xy[1])];
+    });
+    for(var i = 0; i < pts.length - 1; i++){
+      var dx = pts[i+1][0] - pts[i][0], dy = pts[i+1][1] - pts[i][1];
+      var len = Math.sqrt(dx*dx + dy*dy);
+      var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      var n = Math.max(1, Math.floor(len / 70));
+      for(var k = 1; k <= n; k++){
+        var t = k / (n + 1);
+        t = 0.25 + t * 0.5;  // keep arrows in the middle half, clear of the pins
+        var mx = pts[i][0] + dx * t, my = pts[i][1] + dy * t;
+        var chev = document.createElementNS(NS, "polygon");
+        chev.setAttribute("points", "-3.2,-4 4.6,0 -3.2,4");
+        chev.setAttribute("transform", "translate(" + mx.toFixed(1) + "," + my.toFixed(1) + ") rotate(" + angle.toFixed(1) + ")");
+        chev.setAttribute("class", "route-chev");
+        chev.setAttribute("data-route", route);
+        svgm.insertBefore(chev, firstNode);
+      }
+    }
+  });
+
   // ---- 3-D directory strips: a miniature model per stop, laid along each trail ----
   function poly(parent, pts, cls){
     var el = document.createElementNS(NS, "polygon");
@@ -1241,9 +1294,11 @@
   var lines = document.querySelectorAll(".route-line");
   var nodes = document.querySelectorAll(".node");
 
+  var chevrons = document.querySelectorAll(".route-chev");
   function setRoute(route){
     chips.forEach(function(c){ c.setAttribute("aria-pressed", c.getAttribute("data-toggle") === route ? "true" : "false"); });
     lines.forEach(function(l){ l.classList.toggle("on", l.getAttribute("data-route") === route); });
+    Array.prototype.slice.call(chevrons).forEach(function(cv){ cv.classList.toggle("on", cv.getAttribute("data-route") === route); });
     nodes.forEach(function(n){
       if(!route){ n.classList.remove("dim"); n.classList.remove("active"); return; }
       var member = (n.getAttribute("data-routes") || "").split(" ").indexOf(route) > -1;
