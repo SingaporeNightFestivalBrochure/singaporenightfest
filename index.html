@@ -125,6 +125,11 @@
   }
   .eyebrow .rule{ height:1px; flex:1; background: linear-gradient(90deg, var(--gold-dim), transparent); }
   p{ margin: 0 0 .8em; color: var(--parchment); }
+  /* description texts sit flush on both edges for a neater column */
+  .hero .sub, .lede, .trail-if, .stops .what, .sig-card p, .idea-card p,
+  .satellite-note, .info-card p, .now-line{
+    text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto;
+  }
   .lede{ color: var(--muted); font-size: .96rem; }
   .section{ padding: 2.6rem 1.25rem 0; scroll-margin-top: 1rem; }
   .section > .eyebrow{ padding: 0 .1rem; }
@@ -502,7 +507,7 @@
   <!-- ===================== HOW TO USE ===================== -->
   <section class="section" id="howto">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-info"/></svg>How this guide works<div class="rule"></div></div>
-    <h2>Three steps, one easy night</h2>
+    <h2>Three Steps, One Easy Night</h2>
     <p class="lede">The festival spans four zones and eighteen-plus works — more than anyone needs in one visit. This guide gets you there in three steps.</p>
     <div class="howto">
       <div><span class="step-n">1</span><p>Get your bearings on the precinct map</p></div>
@@ -515,8 +520,8 @@
   <!-- EDIT: map heading and intro (building names are edited in the SVG labels) -->
   <section class="section" id="map">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-pin"/></svg>Step 1 · Know the precinct<div class="rule"></div></div>
-    <h2>The precinct map</h2>
-    <p class="lede">Every festival stop pinned where it stands, with the streets, MRT stations and everyday landmarks to steer by. Head straight for any glowing pin — or tap a trail below to light a ready-made path in its colour.</p>
+    <h2>The Precinct Map</h2>
+    <p class="lede">Every festival stop pinned where it stands, with the streets, MRT stations and everyday landmarks to steer by. Use this for reference and easily head to your desired location.</p>
 
     <div class="map-card">
       <div class="map-wrap">
@@ -768,7 +773,7 @@
   <!-- EDIT: the four trails — names, descriptions, stops and walking hints -->
   <section class="section" id="routes">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-route"/></svg>Step 2 · Unsure where to begin?<div class="rule"></div></div>
-    <h2>Pick a ready-made trail</h2>
+    <h2>Pick A Ready-Made Trail</h2>
     <p class="lede">Not sure where to begin? Pick out any of our suggested interest-based routes and give them a shot! Each trail has its own colour — drag its little 3-D directory like a mall map, then follow the numbered stops and walking hints.</p>
 
     <div class="trail-card t-heritage">
@@ -778,7 +783,6 @@
       </div>
       <p class="trail-if">If you like Singapore's <b>history and folklore</b>, follow this route to experience <b>Tales of Earth and Sea</b> and <b>The Lost Legacy of Fort Canning</b>, and learn how the myths of Bugis seafarers and the ancient kingdom of Singapura still shape the city today.</p>
       <div class="trail-3d" data-trail="culture" aria-hidden="true"></div>
-      <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
       <ul class="stops">
         <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Tales of Earth and Sea — facade projection reinterpreting local folklore. Free.</div><div class="next-hint">↳ Next: take the hill path right behind the museum (~5 min)</div></li>
         <li><span class="num">2</span><span class="place">Fort Canning Hill</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Lost Legacy of Fort Canning: The Forbidden Hill — 70-min trail through Bukit Larangan. $60, select nights.</div><div class="next-hint">↳ Next: walk back downhill and along Armenian St, past the Peranakan Museum (~7 min)</div></li>
@@ -791,7 +795,7 @@
     <div class="trail-card hands">
       <div class="trail-head">
         <svg style="color:var(--cyan)"><use href="#i-hand"/></svg>
-        <div><span class="trail-tag">Touch · Step in · Join in</span><h3>The Immersive Experience</h3></div>
+        <div><span class="trail-tag">Touch · Step in · Join in</span><h3>The Immersive Trail</h3></div>
       </div>
       <p class="trail-if">If you'd rather <b>step inside the story than look at it</b>, follow this route to experience the festival's immersive side — roaming creatures, a horror night in a heritage cinema, and artworks you can touch, add to or wander through. Each stop is tagged with what you'll actually get to do.</p>
       <div class="trail-3d" data-trail="play" aria-hidden="true"></div>
@@ -813,7 +817,6 @@
       </div>
       <p class="trail-if">If you want <b>the most photogenic corners</b> of the festival, follow this route to experience the grandest facade projection, a glowing bamboo sanctuary and a lane of luminous storm clouds — built for the camera roll.</p>
       <div class="trail-3d" data-trail="aesthetic" aria-hidden="true"></div>
-      <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
       <ul class="stops">
         <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Tales of Earth and Sea — the festival's grandest facade projection. Free.</div><div class="next-hint">↳ Next: cross Stamford Rd onto the SMU lawn (~4 min)</div></li>
         <li><span class="num">4</span><span class="place">SMU Campus Green</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Dragon's Tooth — a glowing bamboo sanctuary of light and shadow. Free.</div><div class="next-hint">↳ Next: walk down Victoria St, past Bras Basah Complex, to the tall glass library (~8 min)</div></li>
@@ -850,7 +853,7 @@
   <!-- EDIT: MRT station cards and walking times -->
   <section class="section" id="nearme">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-train"/></svg>Step 3 · Start from your MRT<div class="rule"></div></div>
-    <h2>What's near me right now?</h2>
+    <h2>What's Near Me Right Now?</h2>
     <p class="lede">Just got off the train? Start here — walking times are approximate.</p>
 
     <div class="station-card">
@@ -904,7 +907,7 @@
   <!-- EDIT: the signature highlights -->
   <section class="section" id="popular">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-star"/></svg>More · Fan favourites<div class="rule"></div></div>
-    <h2>The three signature highlights</h2>
+    <h2>The Three Signature Highlights</h2>
     <p class="lede">Short on time? These are the works HeritageSG built this year's festival around — the ones everyone talks about after.</p>
 
     <div class="signature-strip">
@@ -931,7 +934,7 @@
   <!-- EDIT: quick-idea cards -->
   <section class="section" id="ideas">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-compass"/></svg>More · Not sure where to start?<div class="rule"></div></div>
-    <h2>Here are some ideas</h2>
+    <h2>Check These Out</h2>
     <p class="lede">A shortlist of easy, free, first-timer-friendly stops — no ticket, no plan required.</p>
 
     <div class="idea-grid">
@@ -955,7 +958,7 @@
   <!-- EDIT: dates, hours and ticket prices -->
   <section class="section" id="info">
     <div class="eyebrow"><svg width="14" height="14"><use href="#i-ticket"/></svg>Practical info<div class="rule"></div></div>
-    <h2>Before you go</h2>
+    <h2>Before You Go</h2>
 
     <div class="info-card">
       <h4>Dates &amp; hours</h4>
@@ -978,6 +981,11 @@
         </table>
       </div>
       <p style="font-size:.7rem;color:var(--muted);margin-top:.6rem">*Registration required. Ticket sales details at heritage.sg/sgnightfest.</p>
+    </div>
+
+    <div class="info-card">
+      <h4>Selected dates only</h4>
+      <p style="font-size:.86rem; margin:0">Not every artwork runs every night — Birdmen roams on the opening weekend only (21–23 Aug), and programmes like The Lost Legacy of Fort Canning, Horror Nights and Legends in Motion run on selected dates. Check the official festival website at <b>heritage.sg/sgnightfest</b> before heading down so your plans match the programme.</p>
     </div>
 
     <div class="info-card">
