@@ -1,0 +1,1314 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singapore Night Festival 2026 — Pocket Trail Guide</title>
+<!--
+  ================== HOW TO EDIT THIS BROCHURE YOURSELF ==================
+  Everything you can read on the page is plain text in this one file.
+  1. Open this file in any text editor (Notepad, TextEdit, VS Code).
+  2. Press Ctrl+F (Cmd+F on Mac), search for the sentence you want to
+     change, edit it, and save.
+  3. Double-click the file to open it in a browser and check your change.
+
+  Where things live:
+  · Section wording (titles, descriptions, trail stops, ticket prices):
+    in the HTML below — each section starts with an "EDIT:" comment.
+  · Colours: the list of "--" variables at the top of the <style> block.
+  · The map pin directory (pins 1-14): search for "var STOPS" in the
+    <script> at the bottom.
+  · The names under the little 3-D trail models: search for "TRAILS3D".
+  · Map building names: search for "bld-label" — each label is one line.
+  Keep the tags (<b>, <div>, etc.) around the text as they are; change
+  only the words between them.
+
+  ADDING YOUR OWN ILLUSTRATIONS
+  · Five empty art bands are built into the page, marked with comments:
+    ART BAND 1 (cover), 2 (map-to-trails), 3 (trails-to-near-me),
+    4 (before practical info), 5 (footer). Put your drawing inside one:
+        [img src="my-drawing.png" alt=""]     (use angle brackets < >)
+    Save your image file in the same folder as this HTML file.
+  · To DRAW A FULL-PAGE BACKGROUND that shows behind everything:
+    search for "YOUR BACKGROUND IMAGE" in the style block below and
+    follow the instruction on that line. A wide, dark image works best;
+    it stays fixed while the page scrolls over it.
+  · Art bands print in the PDF too, so add your art before exporting.
+  ========================================================================
+-->
+<style>
+  :root{
+    --ink: #081619;
+    --ink-raised: #0e2227;
+    --ink-raised-2: #113036;
+    --line: #24424a;
+    --parchment: #f1ecda;
+    --muted: #9fbcb7;
+    --gold: #ffb648;
+    --gold-dim: #b97e2a;
+    --magenta: #f2699c;
+    --cyan: #55e0a8;
+    --z-museum: #a684e8;
+    --z-1: #58a0dc;
+    --z-2: #e8735f;
+    --z-3: #6bc98a;
+    --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Noto Serif", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+
+  *{ box-sizing: border-box; }
+  @media (prefers-reduced-motion: no-preference){ html{ scroll-behavior: smooth; } }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ YOUR ART GOES HERE ============
+     Deliberately plain backdrop — a flat night ground with the faintest vignette.
+     Three ways to add your own illustrations (Merlion, MBS, CHIJMES...):
+       1. Background image on the fixed layer (shows through the whole page):
+            .sky{ background-image: url(data:image/png;base64,...); background-size: cover; }
+       2. Drop an <img> inside any .canvas-space block — they are empty bands
+          reserved for art at the hero, between sections, and at the footer.
+       3. Absolutely-positioned images inside .sky for precise placement.
+     Cards sit on a slightly raised tint, so art placed behind them stays subtle;
+     art inside .canvas-space bands shows at full strength. */
+  .sky{
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(120% 60% at 50% 0%, rgba(85,224,168,0.06), transparent 70%),
+      var(--ink);
+    /* YOUR BACKGROUND IMAGE: remove the slash-star wrappers on the two
+       lines below and put your file name in place of my-background.png */
+    /* background-image: url('my-background.png'); */
+    /* background-size: cover; background-position: center; */
+  }
+
+  /* Reserved blank areas inside the flow — empty on purpose, for hand-drawn art.
+     They inherit the plain background so anything you draw sits seamlessly. */
+  .canvas-space{ width:100%; display:flex; align-items:center; justify-content:center; }
+  .canvas-space.tall{ min-height: 240px; }
+  .canvas-space.mid{ min-height: 150px; }
+  .canvas-space img{ max-width:100%; max-height:100%; }
+
+  .page{ max-width: 480px; margin: 0 auto; padding: 0 0 96px; position: relative; }
+
+  a{ color: var(--cyan); }
+  a:focus-visible, button:focus-visible, summary:focus-visible, .chip:focus-visible{
+    outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px;
+  }
+
+  /* ---------- Type ---------- */
+  h1,h2,h3{ font-family: var(--font-display); font-weight: 700; text-wrap: balance; margin: 0; color: var(--parchment); }
+  .eyebrow{
+    display:flex; align-items:center; gap:.5em;
+    font-family: var(--font-mono); font-size: .72rem; letter-spacing:.14em; text-transform:uppercase;
+    color: var(--gold); margin: 0 0 .4rem;
+  }
+  .eyebrow .rule{ height:1px; flex:1; background: linear-gradient(90deg, var(--gold-dim), transparent); }
+  p{ margin: 0 0 .8em; color: var(--parchment); }
+  .lede{ color: var(--muted); font-size: .96rem; }
+  .section{ padding: 2.6rem 1.25rem 0; scroll-margin-top: 1rem; }
+  .section > .eyebrow{ padding: 0 .1rem; }
+  .section h2{ font-size: clamp(1.5rem, 6vw, 1.9rem); margin-bottom: .5rem; }
+  .section .lede{ margin-bottom: 1.3rem; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 2.6rem 1.4rem 0;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .kicker{ display:flex; align-items:center; gap:.7em; }
+  .hero .kicker::after{ content:""; height:1px; flex:1; background: linear-gradient(90deg, var(--gold-dim), transparent); }
+  .hero .kicker{ font-family: var(--font-mono); letter-spacing:.2em; text-transform:uppercase; color: var(--cyan); font-size:.72rem; }
+  .hero h1{ font-size: clamp(2.1rem, 11vw, 2.9rem); line-height:1.05; margin:.5rem 0; }
+  .hero h1 em{ display:block; font-style: italic; color: var(--gold); font-size: .55em; letter-spacing:.02em; margin-top:.2rem; }
+  .hero .dates{ font-family: var(--font-mono); color: var(--parchment); font-size: .95rem; margin-top:.6rem; }
+  .hero .dates b{ color: var(--gold); }
+  .hero .sub{ color: var(--muted); max-width: 34em; margin: .9rem 0 0; font-size: .95rem; }
+
+  /* ---------- How-to strip ---------- */
+  .howto{ display:grid; grid-template-columns: repeat(3,1fr); gap:.6rem; margin-top:1.2rem; }
+  .howto .step-n{ font-family: var(--font-display); font-style: italic; font-size:1.5rem; color: var(--gold); display:block; line-height:1; }
+  .howto div{ background: var(--ink-raised); border:1px solid var(--line); border-radius:10px; padding:.7rem .5rem .6rem; text-align:center; }
+  .howto svg{ width:20px; height:20px; color: var(--cyan); }
+  .howto p{ font-size:.68rem; color: var(--muted); margin:.35rem 0 0; line-height:1.25; }
+
+  /* ---------- Map ---------- */
+  .map-card{
+    background: var(--ink-raised); border:1px solid var(--line); border-radius:18px;
+    padding: 1rem .8rem 1.2rem; margin-top: .5rem;
+  }
+  .map-wrap{ position:relative; }
+  svg#precinct-map{ width:100%; height:auto; display:block; }
+  .zone{ fill-opacity:.16; stroke-width:1.2; stroke-opacity:.8; }
+  .zone-museum{ fill: var(--z-museum); stroke: var(--z-museum); }
+  .zone-1{ fill: var(--z-1); stroke: var(--z-1); }
+  .zone-2{ fill: var(--z-2); stroke: var(--z-2); }
+  .zone-3{ fill: var(--z-3); stroke: var(--z-3); }
+  .zone-label{ font-family: var(--font-mono); font-size: 8px; letter-spacing: .08em; fill: var(--parchment); opacity:.65; text-transform:uppercase; font-weight:700; }
+  .street{ stroke: #06181d; stroke-width: 8; stroke-linecap: round; fill:none; }
+  .street.thin{ stroke-width: 6; }
+  .street-label{
+    font-family: var(--font-mono); font-size: 6px; fill: #bccfd6; letter-spacing:.05em;
+    paint-order: stroke; stroke: #06181d; stroke-width: 2.4px; stroke-linejoin: round;
+  }
+  .bld{ fill: rgba(241,236,218,0.09); stroke: rgba(241,236,218,0.3); stroke-width:.9; rx:3; }
+  /* directory-style 2.5-D extrusions (generated at load) */
+  .bld-top{ fill: rgba(241,236,218,0.22); stroke: rgba(241,236,218,0.3); stroke-width:.6; }
+  .bld-side{ fill: #06181d; fill-opacity:.72; stroke: rgba(241,236,218,0.14); stroke-width:.6; }
+  .bld-roof{ fill: rgba(255,182,72,0.32); stroke: rgba(255,182,72,0.55); stroke-width:.7; }
+  .bld-park{ fill: rgba(107,201,138,0.10); stroke: rgba(107,201,138,0.4); }
+  .tree-crown{ fill: rgba(107,201,138,0.5); stroke: rgba(107,201,138,0.85); stroke-width:.6; }
+  .tree-trunk{ stroke: rgba(107,201,138,0.85); stroke-width:1; }
+  .bld-label{
+    font-family: var(--font-mono); font-size: 6px; fill: rgba(241,236,218,.9); text-anchor:middle; letter-spacing:.02em;
+    paint-order: stroke; stroke: rgba(8,22,25,.75); stroke-width: 1.6px; stroke-linejoin: round;
+  }
+  .bld-ctx{ fill: rgba(241,236,218,.022); stroke: rgba(241,236,218,.09); }
+  .bld-label.ctx{ fill: rgba(241,236,218,.42); font-size: 5.6px; }
+  .mrt{ rx:5; }
+  .mrt-label{ font-family: var(--font-mono); font-size: 6px; font-weight:700; fill:#fff; text-anchor:middle; letter-spacing:.04em; }
+  .node circle{ fill: var(--ink); stroke: var(--gold); stroke-width:2; r:9; transition: opacity .25s, stroke .25s, fill .25s; filter: drop-shadow(0 0 3px rgba(255,182,72,.5)); }
+  .node text{ fill: var(--gold); font-family: var(--font-mono); font-size:9px; font-weight:700; text-anchor:middle; dominant-baseline:central; pointer-events:none; }
+  .node.dim circle{ opacity:.18; filter:none; }
+  .node.dim text{ opacity:.25; }
+  .node.active circle{ fill: var(--gold); stroke: var(--parchment); }
+  .node.active text{ fill: #2b1a04; }
+  .route-line{ fill:none; stroke: var(--gold); stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:5 5; opacity:0; transition: opacity .3s; }
+  .route-line.on{ opacity:1; }
+  @media (prefers-reduced-motion: no-preference){
+    .route-line.on{ animation: dash 18s linear infinite; }
+  }
+  @keyframes dash{ to{ stroke-dashoffset: -200; } }
+
+  .legend-row{ display:flex; flex-wrap:wrap; gap:.5rem 1rem; margin-top:.9rem; font-size:.72rem; color: var(--muted); font-family: var(--font-mono); }
+  .legend-row .dot{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:.35em; vertical-align:middle; }
+  .map-key{ font-size:.78rem; color: var(--muted); margin-top:.7rem; line-height:1.55; }
+  .map-key b{ color: var(--parchment); font-weight:600; }
+
+  .route-toggles{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
+  .chip{
+    font-family: var(--font-mono); font-size:.72rem; letter-spacing:.03em;
+    background: var(--ink-raised-2); color: var(--muted); border:1px solid var(--line);
+    padding:.5rem .8rem; border-radius:999px; cursor:pointer; transition:.2s;
+  }
+  .chip[aria-pressed="true"]{ background: var(--gold); color:#2b1a04; border-color: var(--gold); font-weight:700; }
+
+  details.directory{ margin-top:1rem; }
+  details.directory summary{
+    cursor:pointer; font-family: var(--font-mono); font-size:.78rem; color: var(--cyan);
+    letter-spacing:.03em; padding:.3rem 0;
+  }
+  .dir-list{ list-style:none; margin:.6rem 0 0; padding:0; display:grid; gap:.45rem; }
+  .dir-list li{ display:flex; gap:.6rem; align-items:baseline; font-size:.82rem; }
+  .dir-list .num{
+    flex:none; width:1.5em; height:1.5em; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;
+    font-family: var(--font-mono); font-size:.68rem; background: var(--ink-raised-2); border:1px solid var(--line); color: var(--parchment);
+  }
+  .dir-list .nm{ color: var(--parchment); }
+  .dir-list .zn{ color: var(--muted); font-size:.75rem; }
+
+  /* ---------- Route / trail cards ---------- */
+  .trail-card{
+    background: var(--ink-raised); border:1px solid var(--line); border-radius:18px;
+    padding: 1.3rem 1.1rem; margin-bottom: 1.1rem;
+  }
+  .trail-head{ display:flex; align-items:flex-start; gap:.7rem; margin-bottom:.6rem; }
+  .trail-head svg{ width:26px; height:26px; flex:none; margin-top:2px; }
+  .trail-head h3{ font-size: 1.18rem; line-height:1.2; }
+  .trail-tag{ display:inline-block; font-family: var(--font-mono); font-size:.65rem; letter-spacing:.08em; text-transform:uppercase; color:#2b1a04; background: var(--gold); padding:.15rem .5rem; border-radius:999px; margin-bottom:.35rem; }
+  .trail-if{ color: var(--muted); font-size:.9rem; margin-bottom: 1rem; }
+  .trail-if b{ color: var(--parchment); font-weight:600; }
+
+  .stops{ list-style:none; margin:0; padding:0; position:relative; }
+  .stops::before{
+    content:""; position:absolute; left:11px; top:10px; bottom:10px; width:2px;
+    background: repeating-linear-gradient(180deg, var(--gold-dim) 0 6px, transparent 6px 11px);
+  }
+  .stops li{ position:relative; padding: 0 0 1.05rem 2.1rem; }
+  .stops li:last-child{ padding-bottom:0; }
+  .stops .num{
+    position:absolute; left:0; top:-1px; width:23px; height:23px; border-radius:50%;
+    background: var(--ink); border:1.5px solid var(--gold); color: var(--gold);
+    font-family: var(--font-mono); font-size:.7rem; display:flex; align-items:center; justify-content:center;
+  }
+  .stops .place{ font-weight:700; color: var(--parchment); font-size:.95rem; }
+  .stops .zone-chip{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.05em; text-transform:uppercase; padding:.1rem .4rem; border-radius:5px; margin-left:.4rem; }
+  .stops .what{ color: var(--muted); font-size:.85rem; margin-top:.15rem; }
+  .stops .next-hint{ color: var(--cyan); font-size:.78rem; font-style: italic; margin-top:.3rem; }
+
+  /* each trail carries its own light colour, across card, chips, map line and 3-D strip */
+  .trail-card.t-heritage{ border-color: rgba(166,132,232,.4); background: linear-gradient(180deg, rgba(166,132,232,.07), transparent 45%), var(--ink-raised); }
+  .trail-card.t-heritage .trail-tag{ background: var(--z-museum); color: #1d1030; }
+  .trail-card.t-heritage .stops .num{ border-color: var(--z-museum); color: var(--z-museum); }
+  .trail-card.t-heritage .stops::before{ background: repeating-linear-gradient(180deg, rgba(166,132,232,.55) 0 6px, transparent 6px 11px); }
+  .trail-card.t-heritage .next-hint{ color: #c9b3f2; }
+
+  .trail-card.hands{ border-color: rgba(85,224,168,.4); background: linear-gradient(180deg, rgba(85,224,168,.06), transparent 45%), var(--ink-raised); }
+  .trail-card.hands .trail-tag{ background: var(--cyan); color: #032a25; }
+  .trail-card.hands .stops .num{ border-color: var(--cyan); color: var(--cyan); }
+  .trail-card.hands .stops::before{ background: repeating-linear-gradient(180deg, rgba(85,224,168,.55) 0 6px, transparent 6px 11px); }
+
+  .trail-card.t-photo{ border-color: rgba(242,105,156,.4); background: linear-gradient(180deg, rgba(242,105,156,.06), transparent 45%), var(--ink-raised); }
+  .trail-card.t-photo .trail-tag{ background: var(--magenta); color: #2e0a1a; }
+  .trail-card.t-photo .stops .num{ border-color: var(--magenta); color: var(--magenta); }
+  .trail-card.t-photo .stops::before{ background: repeating-linear-gradient(180deg, rgba(242,105,156,.55) 0 6px, transparent 6px 11px); }
+  .trail-card.t-photo .next-hint{ color: #f7a8c6; }
+
+  .trail-card.t-free{ border-color: rgba(255,182,72,.4); background: linear-gradient(180deg, rgba(255,182,72,.06), transparent 45%), var(--ink-raised); }
+  .trail-card.t-free .trail-tag{ background: var(--gold); color: #2b1a04; }
+  .trail-card.t-free .stops .num{ border-color: var(--gold); color: var(--gold); }
+  .trail-card.t-free .stops::before{ background: repeating-linear-gradient(180deg, rgba(255,182,72,.55) 0 6px, transparent 6px 11px); }
+  .trail-card.t-free .next-hint{ color: #ffd08f; }
+
+  /* map: trail lines and pressed chips take their trail's colour */
+  .route-line[data-route="culture"]{ stroke: var(--z-museum); }
+  .route-line[data-route="play"]{ stroke: var(--cyan); }
+  .route-line[data-route="aesthetic"]{ stroke: var(--magenta); }
+  .route-line[data-route="budget"]{ stroke: var(--gold); }
+  .route-line[data-route="popular"]{ stroke: var(--parchment); }
+  .chip[data-toggle="culture"][aria-pressed="true"]{ background: var(--z-museum); border-color: var(--z-museum); color: #1d1030; }
+  .chip[data-toggle="play"][aria-pressed="true"]{ background: var(--cyan); border-color: var(--cyan); color: #032a25; }
+  .chip[data-toggle="aesthetic"][aria-pressed="true"]{ background: var(--magenta); border-color: var(--magenta); color: #2e0a1a; }
+  .chip[data-toggle="popular"][aria-pressed="true"]{ background: var(--parchment); border-color: var(--parchment); color: #113036; }
+
+  /* 3-D directory strips tinted per trail */
+  .strip-culture .iso-route{ stroke: var(--z-museum); } .strip-culture .iso-chev{ fill: var(--z-museum); }
+  .strip-culture .iso-pin circle{ stroke: var(--z-museum); } .strip-culture .iso-pin text{ fill: var(--z-museum); }
+  .strip-play .iso-route{ stroke: var(--cyan); } .strip-play .iso-chev{ fill: var(--cyan); }
+  .strip-play .iso-pin circle{ stroke: var(--cyan); } .strip-play .iso-pin text{ fill: var(--cyan); }
+  .strip-aesthetic .iso-route{ stroke: var(--magenta); } .strip-aesthetic .iso-chev{ fill: var(--magenta); }
+  .strip-aesthetic .iso-pin circle{ stroke: var(--magenta); } .strip-aesthetic .iso-pin text{ fill: var(--magenta); }
+  .act{
+    display:inline-block; font-family: var(--font-mono); font-size:.6rem; letter-spacing:.07em; text-transform:uppercase;
+    color: var(--cyan); background: rgba(85,224,168,.12); border:1px solid rgba(85,224,168,.35);
+    padding:.1rem .4rem; border-radius:5px; margin-left:.4rem;
+  }
+
+  .view-map-link{
+    display:inline-flex; align-items:center; gap:.35em; margin-top: .9rem;
+    font-family: var(--font-mono); font-size:.75rem; color: var(--cyan); text-decoration:none; border-bottom:1px dashed var(--cyan);
+  }
+
+  /* ---------- 3-D directory strips (one iso model per stop, built at load) ---------- */
+  .trail-3d{ margin: .2rem 0 .2rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+  .trail-3d svg{ display:block; }
+  .trail-3d-hint{ font-family: var(--font-mono); font-size:.6rem; color: var(--muted); letter-spacing:.06em; text-align:right; margin: 0 0 .9rem; }
+  .iso-ground{ fill: rgba(241,236,218,.045); stroke: rgba(241,236,218,.12); stroke-width:.8; }
+  .iso-top{ fill: rgba(241,236,218,.32); stroke: rgba(241,236,218,.5); stroke-width:.7; }
+  .iso-left{ fill: rgba(241,236,218,.13); stroke: rgba(241,236,218,.32); stroke-width:.6; }
+  .iso-right{ fill: rgba(9,26,31,.85); stroke: rgba(241,236,218,.26); stroke-width:.6; }
+  .iso-roof{ fill: rgba(255,182,72,.4); stroke: rgba(255,182,72,.7); stroke-width:.7; }
+  .iso-dome{ fill: rgba(255,182,72,.45); stroke: rgba(255,182,72,.85); stroke-width:.8; }
+  .iso-cyan{ fill: rgba(85,224,168,.5); stroke: rgba(85,224,168,.8); stroke-width:.6; }
+  .iso-hill{ fill: rgba(107,201,138,.2); stroke: rgba(107,201,138,.7); stroke-width:.9; }
+  .iso-park{ fill: rgba(107,201,138,.14); stroke: rgba(107,201,138,.55); stroke-width:.8; }
+  .iso-cloud{ fill: rgba(85,224,168,.12); stroke: rgba(85,224,168,.65); stroke-width:.9; }
+  .iso-flag{ fill: var(--magenta); }
+  .iso-pole{ stroke: rgba(241,236,218,.8); stroke-width:1; }
+  .iso-route{ fill:none; stroke: var(--gold); stroke-width:2.2; stroke-dasharray:4 4; stroke-linecap:round; }
+  .iso-chev{ fill: var(--gold); }
+  .iso-name{ font-family: var(--font-mono); font-size:7.5px; fill: var(--parchment); text-anchor:middle; letter-spacing:.03em; }
+  .iso-pin circle{ fill: var(--ink); stroke: var(--gold); stroke-width:1.4; }
+  .iso-pin text{ fill: var(--gold); font-family: var(--font-mono); font-size:8.5px; text-anchor:middle; dominant-baseline:central; font-weight:700; }
+
+  /* ---------- Zone chip colors ---------- */
+  .zc-museum{ background: rgba(166,132,232,.18); color: var(--z-museum); }
+  .zc-1{ background: rgba(88,160,220,.18); color: var(--z-1); }
+  .zc-2{ background: rgba(232,115,95,.18); color: var(--z-2); }
+  .zc-3{ background: rgba(107,201,138,.18); color: var(--z-3); }
+
+  /* ---------- Popular / signature ---------- */
+  .signature-strip{ display:grid; gap:.9rem; }
+  .sig-card{
+    display:grid; grid-template-columns: 2.4rem 1fr; gap:.8rem;
+    background: var(--ink-raised); border:1px solid var(--line); border-radius:14px; padding: .9rem 1rem;
+  }
+  .sig-card .rank{ font-family: var(--font-display); font-style:italic; font-size:1.5rem; color: var(--gold-dim); }
+  .sig-card h4{ font-family: var(--font-body); font-weight:700; font-size:.96rem; color: var(--parchment); margin:0 0 .2rem; }
+  .sig-card p{ font-size:.83rem; color: var(--muted); margin:0; }
+  .sig-card .meta{ font-family: var(--font-mono); font-size:.68rem; color: var(--cyan); margin-top:.3rem; display:block; }
+
+  /* ---------- Idea grid ---------- */
+  .idea-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:.8rem; }
+  .idea-card{
+    background: var(--ink-raised); border:1px solid var(--line); border-radius:14px; padding:.85rem .8rem;
+    display:flex; flex-direction:column; gap:.35rem;
+  }
+  .idea-card .tag{ align-self:flex-start; font-family: var(--font-mono); font-size:.6rem; letter-spacing:.05em; text-transform:uppercase; padding:.12rem .4rem; border-radius:5px; }
+  .idea-card h4{ font-size:.9rem; font-weight:700; color: var(--parchment); font-family: var(--font-body); }
+  .idea-card p{ font-size:.78rem; color: var(--muted); margin:0; }
+  .idea-card .free{ margin-top:auto; font-family: var(--font-mono); font-size:.66rem; color: var(--gold); }
+
+  /* ---------- Near me ---------- */
+  .station-card{
+    background: var(--ink-raised); border:1px solid var(--line); border-radius:16px; padding:1rem 1.1rem; margin-bottom:.9rem;
+  }
+  .station-head{ display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; }
+  .mrt-badge{
+    font-family: var(--font-mono); font-weight:700; font-size:.72rem; color:#081619;
+    padding:.22rem .45rem; border-radius:6px; letter-spacing:.02em;
+  }
+  .station-head h3{ font-size:1.05rem; font-family: var(--font-body); font-weight:800; }
+  .now-line{ font-style: italic; color: var(--parchment); font-size:.92rem; margin-bottom:.7rem; }
+  .now-line b{ color: var(--gold); font-style:normal; }
+  .walk-list{ list-style:none; margin:0; padding:0; display:grid; gap:.55rem; }
+  .walk-list li{ display:flex; justify-content:space-between; gap:.6rem; align-items:baseline; font-size:.84rem; border-top:1px solid var(--line); padding-top:.5rem; }
+  .walk-list li:first-child{ border-top:none; padding-top:0; }
+  .walk-list .wl-name{ color: var(--parchment); }
+  .walk-list .wl-name small{ display:block; color: var(--muted); font-size:.76rem; font-weight:400; }
+  .walk-list .wl-time{ font-family: var(--font-mono); color: var(--cyan); font-size:.76rem; white-space:nowrap; }
+
+  .satellite-note{
+    background: var(--ink-raised-2); border:1px dashed var(--line); border-radius:14px; padding:.9rem 1rem; font-size:.82rem; color: var(--muted); margin-top:1rem;
+  }
+  .satellite-note b{ color: var(--parchment); }
+
+  /* ---------- Info / footer ---------- */
+  .info-card{ background: var(--ink-raised); border:1px solid var(--line); border-radius:16px; padding:1.1rem; margin-bottom:.9rem; }
+  .info-card h4{ font-family: var(--font-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color: var(--cyan); margin-bottom:.6rem; }
+  table.ticket-table{ width:100%; border-collapse:collapse; font-size:.78rem; }
+  table.ticket-table th{ text-align:left; font-family: var(--font-mono); font-weight:400; color: var(--muted); font-size:.65rem; letter-spacing:.05em; text-transform:uppercase; padding-bottom:.4rem; border-bottom:1px solid var(--line); }
+  table.ticket-table td{ padding:.5rem 0; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.ticket-table tr:last-child td{ border-bottom:none; }
+  table.ticket-table .price{ font-family: var(--font-mono); color: var(--gold); text-align:right; font-variant-numeric: tabular-nums; white-space:nowrap; }
+  .table-scroll{ overflow-x:auto; }
+
+  footer{ padding: 2.4rem 1.25rem 1rem; text-align:center; }
+  footer p{ color: var(--muted); font-size:.78rem; }
+  footer .brand{ font-family: var(--font-display); font-style:italic; color: var(--gold); font-size:1.1rem; margin-bottom:.4rem; }
+
+  /* ---------- Sticky bottom nav ---------- */
+  .tabbar{
+    position: fixed; left:0; right:0; bottom:0; z-index: 50;
+    display:flex; justify-content:center;
+  }
+  .tabbar nav{
+    width:100%; max-width:480px; display:grid; grid-template-columns: repeat(5,1fr);
+    background: rgba(14,34,39,0.92); backdrop-filter: blur(8px);
+    border-top:1px solid var(--line);
+  }
+  .tabbar a{
+    display:flex; flex-direction:column; align-items:center; gap:.15rem; padding:.55rem 0 .6rem;
+    text-decoration:none; color: var(--muted); font-family: var(--font-mono); font-size:.6rem; letter-spacing:.02em;
+    text-transform:uppercase; transition: color .2s;
+  }
+  .tabbar a svg{ width:18px; height:18px; }
+  .tabbar a.active{ color: var(--gold); }
+
+  @media (min-width:481px){
+    body{ background: #051114; }
+    .page{ background: var(--ink); box-shadow: 0 0 60px rgba(0,0,0,.5); border-left:1px solid var(--line); border-right:1px solid var(--line); }
+  }
+
+  /* ---------- PDF download button ---------- */
+  .pdf-btn{
+    display:inline-flex; align-items:center; gap:.45em; margin-top:1rem;
+    font-family: var(--font-mono); font-size:.74rem; letter-spacing:.05em;
+    color: var(--gold); background: transparent; border:1px solid var(--gold-dim);
+    padding:.55rem 1rem; border-radius:999px; cursor:pointer; transition:.2s;
+  }
+  .pdf-btn:hover{ background: rgba(255,182,72,.12); }
+
+  /* ---------- Print / PDF layout ----------
+     Ctrl+P (or the Download PDF button) paginates the brochure:
+     page 1 = cover, then map / trails / highlights+ideas / near-me / info,
+     with every card kept whole across page breaks. */
+  @media print{
+    *{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page{ size: A4 portrait; margin: 0; }
+    html, body{ background: #081619; }
+    .sky{ position: absolute; }
+    .page{ max-width: 100%; padding-bottom: 0; border: none; box-shadow: none; }
+    .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link{ display: none; }
+    .section{ padding-left: 12mm; padding-right: 12mm; }
+    .hero{ padding-left: 12mm; padding-right: 12mm; }
+    #map, #routes, #popular, #nearme, #info{ break-before: page; padding-top: 12mm; }
+    .trail-card, .station-card, .sig-card, .idea-card, .info-card, .satellite-note, .map-card, .howto div{ break-inside: avoid; }
+    h2, .eyebrow, .lede{ break-after: avoid; }
+    .trail-3d{ overflow: visible; }
+    .trail-3d svg{ width: 100%; height: auto; }
+    svg#precinct-map{ max-width: 132mm; margin: 0 auto; }
+    .section .lede{ break-inside: avoid; }
+    .canvas-space.tall{ min-height: 200px; }
+    .canvas-space.mid{ min-height: 90px; }
+    footer, .howto, .legend-row, .walk-list li, .stops li{ break-inside: avoid; }
+    .canvas-space{ break-inside: avoid; }
+  }
+</style>
+
+<div class="sky" aria-hidden="true"></div>
+
+<svg style="display:none">
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-7.58 7-13A7 7 0 0 0 5 9c0 5.42 7 13 7 13Z"/><circle cx="12" cy="9" r="2.4"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="5" r="2.2"/><path d="M6 16.8V13a4 4 0 0 1 4-4h4a4 4 0 0 0 4-4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17.8l-6.1 3.2 1.5-6.8-5.2-4.7 6.9-.7Z"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6Z"/></symbol>
+  <symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="14" rx="4"/><path d="M5 13h14M8 17l-2 3M16 17l2 3"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21Z"/><path d="M4 5.5v15.5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M18 6l-3 3M6 18l3-3M18 18l-3-3"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5.5a1.5 1.5 0 0 1 3 0V11M12 11V9.5a1.5 1.5 0 0 1 3 0V12M15 12v-1a1.4 1.4 0 0 1 2.8.3l-.6 4.7a5 5 0 0 1-5 4.5h-.9a5 5 0 0 1-4.3-2.4l-2.3-3.8a1.3 1.3 0 0 1 2-1.6L9 14.5"/><path d="M10.5 2.5c1-.7 2.5-.7 3.5 0" opacity=".6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l1.6-2h6.8L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.3"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.7 0-3 .9-3 2.1 0 2.6 6 1.6 6 4.2 0 1.2-1.3 2.1-3 2.1-1.2 0-2.3-.5-2.8-1.4M12 6v1.8M12 16.2V18"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9a2 2 0 0 0 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 0 1 0-4V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z"/><path d="M10 6v12" stroke-dasharray="2 2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+</svg>
+
+<div class="page">
+
+  <!-- ===================== HERO ===================== -->
+  <!-- EDIT: cover title, dates and intro line below -->
+  <header class="hero" id="top">
+    <div class="kicker">HeritageSG · 17th Edition</div>
+    <h1>Singapore Night<br>Festival<em>Myths &amp; Legends</em></h1>
+    <div class="dates"><b>21 Aug – 5 Sep 2026</b> · Bras Basah.Bugis</div>
+    <p class="sub">Your pocket guide to the precinct — pick a trail, follow the line, and let the legends find you. No need to see it all in one night.</p>
+
+    <!-- ART BAND 1 · cover (a skyline, the Merlion, CHIJMES spires...) — put your <img> inside this div -->
+    <div class="canvas-space tall" id="art-band-1" aria-hidden="true"></div>
+  </header>
+
+  <!-- ===================== HOW TO USE ===================== -->
+  <section class="section" id="howto">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-info"/></svg>How this guide works<div class="rule"></div></div>
+    <h2>Three steps, one easy night</h2>
+    <p class="lede">The festival spans four zones and eighteen-plus works — more than anyone needs in one visit. This guide gets you there in three steps.</p>
+    <div class="howto">
+      <div><span class="step-n">1</span><p>Get your bearings on the precinct map</p></div>
+      <div><span class="step-n">2</span><p>Not sure where to begin? Pick out any of our suggested interest-based routes and give them a shot!</p></div>
+      <div><span class="step-n">3</span><p>Start at your MRT and follow the numbered stops</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== MAP ===================== -->
+  <!-- EDIT: map heading and intro (building names are edited in the SVG labels) -->
+  <section class="section" id="map">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-pin"/></svg>Step 1 · Know the precinct<div class="rule"></div></div>
+    <h2>The precinct map</h2>
+    <p class="lede">Every festival stop pinned where it stands, with the streets, MRT stations and everyday landmarks to steer by. Head straight for any glowing pin — or tap a trail below to light a ready-made path in its colour.</p>
+
+    <div class="map-card">
+      <div class="map-wrap">
+        <svg id="precinct-map" viewBox="0 0 360 400" role="img" aria-label="Street map of Bras Basah.Bugis showing the four festival zones, major roads, MRT stations, everyday landmarks and 15 numbered festival stops">
+
+          <!-- zone tints -->
+          <rect class="zone zone-museum" x="4" y="4" width="158" height="272" rx="10"/>
+          <rect class="zone zone-1" x="4" y="284" width="158" height="112" rx="10"/>
+          <rect class="zone zone-2" x="170" y="4" width="86" height="272" rx="10"/>
+          <rect class="zone zone-3" x="264" y="4" width="92" height="352" rx="10"/>
+          <rect class="zone zone-3" x="170" y="284" width="86" height="72" rx="10"/>
+
+          <text class="zone-label" x="12" y="17">Museum Zone</text>
+          <text class="zone-label" x="12" y="352">Zone 1</text>
+          <text class="zone-label" x="176" y="17">Zone 2</text>
+          <text class="zone-label" x="270" y="17">Zone 3</text>
+
+          <!-- streets (dark channels, like the official map) -->
+          <line class="street" x1="166" y1="4" x2="166" y2="396"/>
+          <line class="street" x1="260" y1="4" x2="260" y2="356"/>
+          <line class="street thin" x1="120" y1="30" x2="120" y2="276"/>
+          <line class="street" x1="0" y1="280" x2="360" y2="280"/>
+          <line class="street" x1="0" y1="360" x2="360" y2="360"/>
+          <line class="street thin" x1="170" y1="110" x2="360" y2="110"/>
+          <line class="street thin" x1="170" y1="168" x2="360" y2="168"/>
+          <line class="street thin" x1="170" y1="224" x2="360" y2="224"/>
+          <line class="street thin" x1="170" y1="56" x2="360" y2="56"/>
+
+          <!-- street names: set ON the dark road channels, with a dark halo for legibility -->
+          <text class="street-label" x="30" y="282.5">HILL ST</text>
+          <text class="street-label" x="196" y="282.5">VICTORIA ST</text>
+          <text class="street-label" x="30" y="362.5">NORTH BRIDGE RD</text>
+          <text class="street-label" x="230" y="58.5">PRINSEP ST</text>
+          <text class="street-label" x="174" y="112.5">BENCOOLEN ST</text>
+          <text class="street-label" x="300" y="170.5">WATERLOO ST</text>
+          <text class="street-label" x="196" y="226.5">QUEEN ST</text>
+          <text class="street-label" x="168.5" y="275" transform="rotate(-90 168.5 275)" text-anchor="start">BRAS BASAH RD</text>
+          <text class="street-label" x="262.5" y="345" transform="rotate(-90 262.5 345)" text-anchor="start">MIDDLE RD</text>
+          <text class="street-label" x="122.5" y="268" transform="rotate(-90 122.5 268)" text-anchor="start">STAMFORD RD</text>
+
+          <!-- buildings & landmarks.
+               rect.bld with a numbered pin = festival stop, extruded to 3-D at load.
+               rect.bld with data-ctx = everyday landmark, kept flat and dim, for orientation only.
+               data-kind="park" renders flat green with trees; data-roof adds a dome/spire. -->
+
+          <!-- Museum Zone -->
+          <rect class="bld" x="10" y="36" width="52" height="104" rx="3" data-kind="park" data-trees="20,132 50,52"/>
+          <text class="bld-label" x="36" y="66">FORT</text>
+          <text class="bld-label" x="36" y="74">CANNING</text>
+          <text class="bld-label" x="36" y="82">PARK</text>
+
+          <rect class="bld" x="66" y="86" width="46" height="52" rx="3" data-roof="dome"/>
+          <text class="bld-label" x="89" y="118">NATIONAL</text>
+          <text class="bld-label" x="89" y="126">MUSEUM</text>
+
+          <rect class="bld" x="10" y="158" width="52" height="42" rx="3"/>
+          <text class="bld-label" x="36" y="184">NATIONAL</text>
+          <text class="bld-label" x="36" y="192">ARCHIVES</text>
+
+          <rect class="bld" x="64" y="178" width="48" height="44" rx="3"/>
+          <text class="bld-label" x="88" y="206">ARMENIAN</text>
+          <text class="bld-label" x="88" y="214">STREET</text>
+
+          <rect class="bld" x="126" y="100" width="32" height="92" rx="3" data-kind="park" data-trees="134,182 148,134"/>
+          <text class="bld-label" x="152" y="150" transform="rotate(-90 152 150)">SMU CAMPUS GREEN</text>
+
+          <rect class="bld" x="10" y="206" width="52" height="26" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="36" y="216">CHILDREN'S</text>
+          <text class="bld-label ctx" x="36" y="224">MUSEUM</text>
+
+          <rect class="bld" x="10" y="240" width="52" height="30" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="36" y="252">CENTRAL FIRE</text>
+          <text class="bld-label ctx" x="36" y="260">STATION</text>
+
+          <rect class="bld" x="64" y="230" width="48" height="38" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="88" y="246">CATHEDRAL</text>
+          <text class="bld-label ctx" x="88" y="254">GOOD SHEPHERD</text>
+
+          <!-- Zone 1 -->
+          <rect class="bld" x="10" y="292" width="40" height="42" rx="3"/>
+          <text class="bld-label" x="30" y="318">FUNAN</text>
+
+          <rect class="bld" x="58" y="292" width="46" height="42" rx="3"/>
+          <text class="bld-label" x="81" y="318">CAPITOL</text>
+
+          <rect class="bld" x="112" y="296" width="42" height="38" rx="3" data-roof="spire"/>
+          <text class="bld-label" x="133" y="318">CHIJMES</text>
+
+          <rect class="bld" x="88" y="370" width="66" height="22" rx="3" data-tall="5"/>
+          <text class="bld-label" x="128" y="378">RAFFLES</text>
+          <text class="bld-label" x="128" y="386">CITY</text>
+
+          <!-- Zone 2 -->
+          <rect class="bld" x="174" y="24" width="76" height="28" rx="3"/>
+          <text class="bld-label" x="223" y="35">THE CATHAY /</text>
+          <text class="bld-label" x="223" y="43">CATHAY GREEN</text>
+
+          <rect class="bld" x="174" y="64" width="34" height="40" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="191" y="86">NAFA</text>
+
+          <rect class="bld" x="216" y="64" width="34" height="40" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="233" y="82">SUNSHINE</text>
+          <text class="bld-label ctx" x="233" y="90">PLAZA</text>
+
+          <rect class="bld" x="174" y="120" width="76" height="42" rx="3"/>
+          <text class="bld-label" x="223" y="138">WATERLOO ST</text>
+          <text class="bld-label" x="223" y="146">ARTS BELT</text>
+
+          <rect class="bld" x="174" y="176" width="76" height="40" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="212" y="190">KWAN IM &amp;</text>
+          <text class="bld-label ctx" x="212" y="198">SRI KRISHNAN</text>
+          <text class="bld-label ctx" x="212" y="206">TEMPLES</text>
+
+          <rect class="bld" x="174" y="232" width="76" height="36" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="212" y="252">WATERLOO CENTRE</text>
+
+          <!-- Zone 3 -->
+          <rect class="bld" x="310" y="22" width="42" height="30" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="331" y="34">LASALLE</text>
+          <text class="bld-label ctx" x="331" y="42">ARTS</text>
+
+          <rect class="bld" x="268" y="64" width="36" height="40" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="286" y="82">FORTUNE</text>
+          <text class="bld-label ctx" x="286" y="90">CENTRE</text>
+
+          <rect class="bld" x="312" y="64" width="40" height="40" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="332" y="82">OG</text>
+          <text class="bld-label ctx" x="332" y="90">ALBERT</text>
+
+          <rect class="bld" x="268" y="120" width="80" height="34" rx="3"/>
+          <text class="bld-label" x="314" y="134">STAMFORD</text>
+          <text class="bld-label" x="314" y="142">ARTS CENTRE</text>
+
+          <rect class="bld" x="268" y="176" width="26" height="44" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="280" y="198" transform="rotate(-90 280 198)">ALBERT MKT</text>
+
+          <rect class="bld" x="300" y="176" width="48" height="44" rx="3"/>
+          <text class="bld-label" x="324" y="205">BUGIS ST</text>
+          <text class="bld-label" x="324" y="213">ART LANE</text>
+
+          <rect class="bld" x="300" y="230" width="48" height="38" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="324" y="252">BUGIS+</text>
+
+          <rect class="bld" x="300" y="300" width="48" height="40" rx="3" data-ctx="1"/>
+          <text class="bld-label ctx" x="324" y="322">BUGIS</text>
+          <text class="bld-label ctx" x="324" y="330">JUNCTION</text>
+
+          <rect class="bld" x="174" y="290" width="36" height="60" rx="3"/>
+          <text class="bld-label" x="192" y="324">BRAS</text>
+          <text class="bld-label" x="192" y="332">BASAH</text>
+          <text class="bld-label" x="192" y="340">CPLX</text>
+
+          <rect class="bld" x="212" y="290" width="36" height="60" rx="3" data-tall="5"/>
+          <text class="bld-label" x="230" y="324">NATIONAL</text>
+          <text class="bld-label" x="230" y="332">LIBRARY</text>
+
+          <!-- MRT stations -->
+          <rect class="mrt" x="138" y="204" width="56" height="12" rx="5" fill="#fa9e0d"/>
+          <text class="mrt-label" x="166" y="212.5">BRAS BASAH</text>
+          <rect class="mrt" x="232" y="104" width="56" height="12" rx="5" fill="#005ec4"/>
+          <text class="mrt-label" x="260" y="112.5">BENCOOLEN</text>
+          <rect class="mrt" x="304" y="274" width="50" height="12" rx="5" fill="#039e49"/>
+          <text class="mrt-label" x="329" y="282.5">BUGIS</text>
+          <rect class="mrt" x="8" y="378" width="54" height="12" rx="5" fill="#d42e12"/>
+          <text class="mrt-label" x="35" y="386.5">CITY HALL</text>
+
+          <!-- trail lines -->
+          <path class="route-line" data-route="culture" d="M89,98 L36,120 L89,190 L142,112"/>
+          <path class="route-line" data-route="play" d="M89,98 L36,170 L81,302 L312,190 L230,302"/>
+          <path class="route-line" data-route="aesthetic" d="M89,98 L142,112 L230,302 L312,190"/>
+          <path class="route-line" data-route="budget" d="M30,302 L89,190 L89,98 L142,112 L230,302 L312,190"/>
+          <path class="route-line" data-route="popular" d="M36,120 L89,98 L188,36"/>
+
+          <!-- numbered stops -->
+          <g class="node" data-id="1" data-routes="culture play aesthetic budget popular" transform="translate(89,98)"><circle/><text>1</text></g>
+          <g class="node" data-id="2" data-routes="culture popular" transform="translate(36,120)"><circle/><text>2</text></g>
+          <g class="node" data-id="3" data-routes="culture budget" transform="translate(89,190)"><circle/><text>3</text></g>
+          <g class="node" data-id="4" data-routes="culture aesthetic budget" transform="translate(142,112)"><circle/><text>4</text></g>
+          <g class="node" data-id="5" data-routes="play" transform="translate(36,170)"><circle/><text>5</text></g>
+          <g class="node" data-id="6" data-routes="play" transform="translate(81,302)"><circle/><text>6</text></g>
+          <g class="node" data-id="7" data-routes="" transform="translate(133,302)"><circle/><text>7</text></g>
+          <g class="node" data-id="8" data-routes="budget" transform="translate(30,302)"><circle/><text>8</text></g>
+          <g class="node" data-id="9" data-routes="" transform="translate(104,379)"><circle/><text>9</text></g>
+          <g class="node" data-id="10" data-routes="" transform="translate(188,132)"><circle/><text>10</text></g>
+          <g class="node" data-id="11" data-routes="popular" transform="translate(188,36)"><circle/><text>11</text></g>
+          <g class="node" data-id="12" data-routes="play aesthetic budget" transform="translate(230,302)"><circle/><text>12</text></g>
+          <g class="node" data-id="13" data-routes="play aesthetic budget" transform="translate(312,190)"><circle/><text>13</text></g>
+          <g class="node" data-id="14" data-routes="" transform="translate(191,302)"><circle/><text>14</text></g>
+          <g class="node" data-id="15" data-routes="" transform="translate(281,137)"><circle/><text>15</text></g>
+        </svg>
+      </div>
+
+      <div class="legend-row">
+        <span><i class="dot" style="background:var(--z-museum)"></i>Museum Zone</span>
+        <span><i class="dot" style="background:var(--z-1)"></i>Zone 1</span>
+        <span><i class="dot" style="background:var(--z-2)"></i>Zone 2</span>
+        <span><i class="dot" style="background:var(--z-3)"></i>Zone 3</span>
+      </div>
+
+
+      <div class="route-toggles" role="group" aria-label="Highlight a trail on the map">
+        <button class="chip" data-toggle="culture" aria-pressed="false">Culture &amp; Heritage</button>
+        <button class="chip" data-toggle="play" aria-pressed="false">Immersive</button>
+        <button class="chip" data-toggle="aesthetic" aria-pressed="false">Most Instagrammable</button>
+        <button class="chip" data-toggle="budget" aria-pressed="false">Free &amp; Easy</button>
+        <button class="chip" data-toggle="popular" aria-pressed="false">Fan Favourites</button>
+        <button class="chip" data-toggle="" aria-pressed="true">Show all pins</button>
+      </div>
+
+      <details class="directory">
+        <summary>▸ Open full pin directory (1–15)</summary>
+        <ul class="dir-list" id="dir-list"><!-- filled by JS from STOPS data --></ul>
+      </details>
+
+      <div class="satellite-note">
+        <b>Just off this map:</b> Plaza Singapura (Fortune Merlion) is one MRT stop west at Dhoby Ghaut — see "Near Me" for directions.
+      </div>
+    </div>
+  </section>
+
+  <!-- ART BAND 2 · between map and trails — put your <img> inside this div -->
+  <div class="canvas-space mid" id="art-band-2" aria-hidden="true"></div>
+
+  <!-- ===================== ROUTES ===================== -->
+  <!-- EDIT: the four trails — names, descriptions, stops and walking hints -->
+  <section class="section" id="routes">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-route"/></svg>Step 2 · Unsure where to begin?<div class="rule"></div></div>
+    <h2>Pick a ready-made trail</h2>
+    <p class="lede">Not sure where to begin? Pick out any of our suggested interest-based routes and give them a shot! Each trail has its own colour — drag its little 3-D directory like a mall map, then follow the numbered stops and walking hints.</p>
+
+    <div class="trail-card t-heritage">
+      <div class="trail-head">
+        <svg style="color:var(--z-museum)"><use href="#i-book"/></svg>
+        <div><span class="trail-tag">Culture &amp; Heritage</span><h3>The Storyteller's Trail</h3></div>
+      </div>
+      <p class="trail-if">If you like Singapore's <b>history and folklore</b>, follow this route to experience <b>Tales of Earth and Sea</b> and <b>The Lost Legacy of Fort Canning</b>, and learn how the myths of Bugis seafarers and the ancient kingdom of Singapura still shape the city today.</p>
+      <div class="trail-3d" data-trail="culture" aria-hidden="true"></div>
+      <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
+      <ul class="stops">
+        <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Tales of Earth and Sea — facade projection reinterpreting local folklore. Free.</div><div class="next-hint">↳ Next: take the hill path right behind the museum (~5 min)</div></li>
+        <li><span class="num">2</span><span class="place">Fort Canning Hill</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Lost Legacy of Fort Canning: The Forbidden Hill — 70-min trail through Bukit Larangan. $60, select nights.</div><div class="next-hint">↳ Next: walk back downhill and along Armenian St, past the Peranakan Museum (~7 min)</div></li>
+        <li><span class="num">3</span><span class="place">Armenian Street</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Vikings of the Tropics — the maritime myths of Bugis seafarers. Free.</div><div class="next-hint">↳ Next: cross Stamford Rd at the museum crossing onto the lawn (~6 min)</div></li>
+        <li><span class="num">4</span><span class="place">SMU Campus Green</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Dragon's Tooth &amp; Traces — light art rooted in Singapore Stone lore. Free.</div></li>
+      </ul>
+      <a class="view-map-link" data-scrollto="culture" href="#map"><svg width="14" height="14"><use href="#i-pin"/></svg>View this trail on the map</a>
+    </div>
+
+    <div class="trail-card hands">
+      <div class="trail-head">
+        <svg style="color:var(--cyan)"><use href="#i-hand"/></svg>
+        <div><span class="trail-tag">Touch · Step in · Join in</span><h3>The Immersive Experience</h3></div>
+      </div>
+      <p class="trail-if">If you'd rather <b>step inside the story than look at it</b>, follow this route to experience the festival's immersive side — roaming creatures, a horror night in a heritage cinema, and artworks you can touch, add to or wander through. Each stop is tagged with what you'll actually get to do.</p>
+      <div class="trail-3d" data-trail="play" aria-hidden="true"></div>
+      <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
+      <ul class="stops">
+        <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><span class="act">Meet</span><div class="what">Birdmen — get up close with luminous stilt-walking creatures roaming the streets. Free, 21–23 Aug only.</div><div class="next-hint">↳ Next: the Archives building is right next door, at the foot of Fort Canning (~2 min)</div></li>
+        <li><span class="num">5</span><span class="place">Oldham Theatre, National Archives</span><span class="zone-chip zc-museum">Museum Zone</span><span class="act">Watch</span><div class="what">Horror Nights — classic Southeast Asian horror on the big screen of a heritage cinema. $10, 22–23 &amp; 29–30 Aug.</div><div class="next-hint">↳ Next: walk down towards City Hall — Capitol is on your left (~8 min)</div></li>
+        <li><span class="num">6</span><span class="place">Capitol Singapore Outdoor Plaza</span><span class="zone-chip zc-1">Zone 1</span><span class="act">Stitch</span><div class="what">Once Upon A Time — add your own stitches, paillettes and buttons to a fabric menagerie. Free.</div><div class="next-hint">↳ Next: follow North Bridge Rd towards Bugis, then cut into the lanes of Bugis Street (~10 min)</div></li>
+        <li><span class="num">13</span><span class="place">Bugis Street Art Lane</span><span class="zone-chip zc-3">Zone 3</span><span class="act">Explore</span><div class="what">Stormy Straits — chart your own voyage through glowing monsoon clouds. Free.</div><div class="next-hint">↳ Next: back across Victoria St — the library is the tall glass building (~4 min)</div></li>
+        <li><span class="num">12</span><span class="place">National Library Plaza</span><span class="zone-chip zc-3">Zone 3</span><span class="act">Wander</span><div class="what">Lovebug — roam a whimsical inflatable world of mythical creatures. Free.</div></li>
+      </ul>
+      <a class="view-map-link" data-scrollto="play" href="#map"><svg width="14" height="14"><use href="#i-pin"/></svg>View this trail on the map</a>
+    </div>
+
+    <div class="trail-card t-photo">
+      <div class="trail-head">
+        <svg style="color:var(--magenta)"><use href="#i-camera"/></svg>
+        <div><span class="trail-tag">Most Instagrammable</span><h3>The Aesthetic Trail</h3></div>
+      </div>
+      <p class="trail-if">If you want <b>the most photogenic corners</b> of the festival, follow this route to experience the grandest facade projection, a glowing bamboo sanctuary and a lane of luminous storm clouds — built for the camera roll.</p>
+      <div class="trail-3d" data-trail="aesthetic" aria-hidden="true"></div>
+      <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
+      <ul class="stops">
+        <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Tales of Earth and Sea — the festival's grandest facade projection. Free.</div><div class="next-hint">↳ Next: cross Stamford Rd onto the SMU lawn (~4 min)</div></li>
+        <li><span class="num">4</span><span class="place">SMU Campus Green</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Dragon's Tooth — a glowing bamboo sanctuary of light and shadow. Free.</div><div class="next-hint">↳ Next: walk down Victoria St, past Bras Basah Complex, to the tall glass library (~8 min)</div></li>
+        <li><span class="num">12</span><span class="place">National Library Plaza</span><span class="zone-chip zc-3">Zone 3</span><div class="what">Lovebug — oversized, colourful and made for wide shots. Free.</div><div class="next-hint">↳ Next: cross Victoria St into the lanes of Bugis Street (~4 min)</div></li>
+        <li><span class="num">13</span><span class="place">Bugis Street Art Lane</span><span class="zone-chip zc-3">Zone 3</span><div class="what">Stormy Straits — cloud-like sculptures lit from within. Free.</div></li>
+      </ul>
+      <a class="view-map-link" data-scrollto="aesthetic" href="#map"><svg width="14" height="14"><use href="#i-pin"/></svg>View this trail on the map</a>
+    </div>
+
+    <div class="trail-card t-free">
+      <div class="trail-head">
+        <svg style="color:var(--gold)"><use href="#i-coin"/></svg>
+        <div><span class="trail-tag">$0 well spent</span><h3>The Free &amp; Easy Trail</h3></div>
+      </div>
+      <p class="trail-if">If you're keeping the wallet shut, follow this route to experience <b>six of the festival's best works without spending a cent</b> — including the headline projection itself. Free doesn't mean second-best here.</p>
+      <div class="trail-3d" data-trail="budget" aria-hidden="true"></div>
+      <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
+      <ul class="stops">
+        <li><span class="num">8</span><span class="place">Funan (Kinetic Wall)</span><span class="zone-chip zc-1">Zone 1</span><div class="what">Rising of Sister Islands — speak the sisters' names and light the corals. Free.</div><div class="next-hint">↳ Next: walk up Hill St past the Armenian Church (~4 min)</div></li>
+        <li><span class="num">3</span><span class="place">Armenian Street</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Vikings of the Tropics — Bugis seafaring myths in a nautical installation. Free.</div><div class="next-hint">↳ Next: continue up to Stamford Rd — the museum dome is ahead (~4 min)</div></li>
+        <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Tales of Earth and Sea — the festival's headline facade projection. Free.</div><div class="next-hint">↳ Next: cross Stamford Rd onto the SMU lawn (~4 min)</div></li>
+        <li><span class="num">4</span><span class="place">SMU Campus Green</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Three free works in one field: Dragon's Tooth, You and I, Believing... and Traces.</div><div class="next-hint">↳ Next: walk down Victoria St to the tall glass library (~8 min)</div></li>
+        <li><span class="num">12</span><span class="place">National Library Plaza</span><span class="zone-chip zc-3">Zone 3</span><div class="what">Lovebug — the giant inflatable, plus a free book kiosk of legends. Free.</div><div class="next-hint">↳ Next: cross Victoria St into the lanes of Bugis Street (~4 min)</div></li>
+        <li><span class="num">13</span><span class="place">Bugis Street Art Lane</span><span class="zone-chip zc-3">Zone 3</span><div class="what">Stormy Straits — end the night sailing the glowing straits. Free.</div></li>
+      </ul>
+      <a class="view-map-link" data-scrollto="budget" href="#map"><svg width="14" height="14"><use href="#i-pin"/></svg>View this trail on the map</a>
+    </div>
+  </section>
+
+  <!-- ART BAND 3 · between trails and near-me (a good spot for MBS / skyline art) — put your <img> inside this div -->
+  <div class="canvas-space mid" id="art-band-3" aria-hidden="true"></div>
+
+  <!-- ===================== NEAR ME ===================== -->
+  <!-- EDIT: MRT station cards and walking times -->
+  <section class="section" id="nearme">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-train"/></svg>Step 3 · Start from your MRT<div class="rule"></div></div>
+    <h2>What's near me right now?</h2>
+    <p class="lede">Just got off the train? Start here — walking times are approximate.</p>
+
+    <div class="station-card">
+      <div class="station-head"><span class="mrt-badge" style="background:#fa9e0d">CC2</span><h3>Bras Basah</h3></div>
+      <p class="now-line">You're steps from <b>Tales of Earth and Sea</b> — the festival's biggest facade projection is waiting for you.</p>
+      <ul class="walk-list">
+        <li><span class="wl-name">National Museum of Singapore<small>Tales of Earth and Sea · Birdmen</small></span><span class="wl-time">~2 min</span></li>
+        <li><span class="wl-name">SMU Campus Green<small>Dragon's Tooth · You and I, Believing... · Traces</small></span><span class="wl-time">~6 min</span></li>
+      </ul>
+    </div>
+
+    <div class="station-card">
+      <div class="station-head"><span class="mrt-badge" style="background:#fa9e0d">CC1</span><span class="mrt-badge" style="background:#d42e12">NS24</span><span class="mrt-badge" style="background:#9b2fae">NE6</span><h3>Dhoby Ghaut</h3></div>
+      <p class="now-line">If you're at Dhoby Ghaut, <b>The Lost Legacy of Fort Canning</b> is waiting for you.</p>
+      <ul class="walk-list">
+        <li><span class="wl-name">Fort Canning Park entrance<small>The Lost Legacy of Fort Canning: The Forbidden Hill</small></span><span class="wl-time">~5 min</span></li>
+        <li><span class="wl-name">Plaza Singapura<small>THE BLOOMING HEARTS FORTUNE MERLION</small></span><span class="wl-time">~2 min</span></li>
+        <li><span class="wl-name">The Cathay<small>MALAM Projection Mapping Competition</small></span><span class="wl-time">~4 min</span></li>
+      </ul>
+    </div>
+
+    <div class="station-card">
+      <div class="station-head"><span class="mrt-badge" style="background:#d42e12">NS25</span><span class="mrt-badge" style="background:#039e49">EW13</span><h3>City Hall</h3></div>
+      <p class="now-line">If you're at City Hall, <b>Once Upon A Time</b> is waiting for you.</p>
+      <ul class="walk-list">
+        <li><span class="wl-name">Capitol Singapore Outdoor Plaza<small>Once Upon A Time</small></span><span class="wl-time">~4 min</span></li>
+        <li><span class="wl-name">CHIJMES<small>Craft market &amp; historic-grounds installations</small></span><span class="wl-time">~6 min</span></li>
+      </ul>
+    </div>
+
+    <div class="station-card">
+      <div class="station-head"><span class="mrt-badge" style="background:#005ec4">DT21</span><h3>Bencoolen</h3></div>
+      <p class="now-line">If you're at Bencoolen, <b>The Dragon's Tooth</b> is waiting for you.</p>
+      <ul class="walk-list">
+        <li><span class="wl-name">SMU Campus Green<small>Dragon's Tooth · You and I, Believing... · Traces</small></span><span class="wl-time">~3 min</span></li>
+        <li><span class="wl-name">Waterloo Street arts belt<small>Arts-group performances &amp; exhibitions</small></span><span class="wl-time">~4 min</span></li>
+      </ul>
+    </div>
+
+    <div class="station-card">
+      <div class="station-head"><span class="mrt-badge" style="background:#039e49">EW12</span><span class="mrt-badge" style="background:#005ec4">DT14</span><h3>Bugis</h3></div>
+      <p class="now-line">If you're at Bugis MRT, <b>Stormy Straits</b> is waiting for you.</p>
+      <ul class="walk-list">
+        <li><span class="wl-name">Bugis Street Art Lane<small>Stormy Straits</small></span><span class="wl-time">~3 min</span></li>
+        <li><span class="wl-name">National Library Plaza<small>Lovebug · ALIGHT 2.0 (29 Aug daytime)</small></span><span class="wl-time">~5 min</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== POPULAR / SIGNATURE ===================== -->
+  <!-- EDIT: the signature highlights -->
+  <section class="section" id="popular">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-star"/></svg>More · Fan favourites<div class="rule"></div></div>
+    <h2>The three signature highlights</h2>
+    <p class="lede">Short on time? These are the works HeritageSG built this year's festival around — the ones everyone talks about after.</p>
+
+    <div class="signature-strip">
+      <div class="sig-card">
+        <div class="rank">I</div>
+        <div><h4>Tales of Earth and Sea</h4><p>A striking facade projection at the National Museum by Indonesian duo The Fox, The Folks, reinterpreting local folklore to an original cross-border soundtrack.</p><span class="meta">National Museum of Singapore (pin 1) · Free · Launches 21 Aug, 8pm</span></div>
+      </div>
+      <div class="sig-card">
+        <div class="rank">II</div>
+        <div><h4>The Lost Legacy of Fort Canning</h4><p>A 70-minute nocturnal walking trail through the "Forbidden Hill," with soundscapes and live traditional Malay dance.</p><span class="meta">Fort Canning Hill (pin 2) · $60 · Select nights only</span></div>
+      </div>
+      <div class="sig-card">
+        <div class="rank">III</div>
+        <div><h4>MALAM Projection Mapping Competition</h4><p>The inaugural regional competition — the Top 20 (then Top 5) entries lighting up the historic Cathay facade.</p><span class="meta">The Cathay (pin 11) · Free</span></div>
+      </div>
+      <div class="sig-card">
+        <div class="rank">+</div>
+        <div><h4>Birdmen</h4><p>Southeast Asian debut of Dutch troupe Close-Act Theatre — huge, luminous pterodactyl-like creatures roaming the streets.</p><span class="meta">National Museum of Singapore (pin 1) · Free · 21–23 Aug only</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== IDEAS ===================== -->
+  <!-- EDIT: quick-idea cards -->
+  <section class="section" id="ideas">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-compass"/></svg>More · Not sure where to start?<div class="rule"></div></div>
+    <h2>Here are some ideas</h2>
+    <p class="lede">A shortlist of easy, free, first-timer-friendly stops — no ticket, no plan required.</p>
+
+    <div class="idea-grid">
+      <div class="idea-card"><span class="tag zc-1">Zone 1</span><h4>Once Upon A Time</h4><p>30 animal sculptures made from textile waste — touch, stitch and explore.</p><span class="free">Capitol Singapore · Free</span></div>
+      <div class="idea-card"><span class="tag zc-3">Zone 3</span><h4>Lovebug</h4><p>A giant, whimsical inflatable world of mythical creatures and plants.</p><span class="free">National Library Plaza · Free</span></div>
+      <div class="idea-card"><span class="tag zc-3">Zone 3</span><h4>Stormy Straits</h4><p>Wander glowing cloud sculptures through a transformed street lane.</p><span class="free">Bugis Street Art Lane · Free</span></div>
+      <div class="idea-card"><span class="tag zc-museum">Museum</span><h4>Vikings of the Tropics</h4><p>A nautical installation on Bugis seafaring myths, right at the festival hub.</p><span class="free">Armenian Street · Free</span></div>
+      <div class="idea-card"><span class="tag zc-1">Zone 1</span><h4>Rising of Sister Islands</h4><p>Speak two sisters' names and watch glowing corals answer together.</p><span class="free">Funan Kinetic Wall · Free</span></div>
+      <div class="idea-card"><span class="tag zc-1">Zone 1</span><h4>Inter-Light</h4><p>A playful walkthrough of shifting light, shadow and shared shadow-play.</p><span class="free">Raffles City · Free</span></div>
+    </div>
+
+    <div class="satellite-note">
+      <b>Keep an eye out:</b> four bonus works from Light Together Bras Basah.Bugis, including <i>Plant chilli then no rain!</i> by Arup and <i>Wandering Spirits Unbound</i> by Roger Ng, will appear around the precinct in celebration of National Day — locations to be revealed closer to the festival.
+    </div>
+  </section>
+
+  <!-- ART BAND 4 · before practical info — put your <img> inside this div -->
+  <div class="canvas-space mid" id="art-band-4" aria-hidden="true"></div>
+
+  <!-- ===================== PRACTICAL INFO ===================== -->
+  <!-- EDIT: dates, hours and ticket prices -->
+  <section class="section" id="info">
+    <div class="eyebrow"><svg width="14" height="14"><use href="#i-ticket"/></svg>Practical info<div class="rule"></div></div>
+    <h2>Before you go</h2>
+
+    <div class="info-card">
+      <h4>Dates &amp; hours</h4>
+      <p style="font-size:.88rem">21 Aug – 5 Sep 2026, across three weekends.<br>Fri &amp; Sat: 7.30pm – 12mn · Sun – Thu: 7.30pm – 11pm</p>
+      <p style="font-size:.82rem; color:var(--muted); margin:0">Most programmes are free admission — only the five below require a ticket.</p>
+    </div>
+
+    <div class="info-card">
+      <h4>Ticketed programmes</h4>
+      <div class="table-scroll">
+        <table class="ticket-table">
+          <thead><tr><th>Programme</th><th class="price">Price</th></tr></thead>
+          <tbody>
+            <tr><td>Lost Legacy of Fort Canning<br><small style="color:var(--muted)">21,22,27,28,29 Aug · 3,4,5 Sep</small></td><td class="price">$60</td></tr>
+            <tr><td>Legends in Motion: When the Water Rose<br><small style="color:var(--muted)">22, 29 Aug · 5 Sep</small></td><td class="price">$35</td></tr>
+            <tr><td>Legends in Motion: invisible city<br><small style="color:var(--muted)">21, 28 Aug · 4 Sep</small></td><td class="price">$25</td></tr>
+            <tr><td>Horror Nights @ Oldham Theatre<br><small style="color:var(--muted)">22,23,29,30 Aug</small></td><td class="price">$10</td></tr>
+            <tr><td>ALIGHT 2.0 Conference<br><small style="color:var(--muted)">29 Aug, 10am–5pm</small></td><td class="price">Free*</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.7rem;color:var(--muted);margin-top:.6rem">*Registration required. Ticket sales details at heritage.sg/sgnightfest.</p>
+    </div>
+
+    <div class="info-card">
+      <h4>Getting there</h4>
+      <p style="font-size:.86rem">The precinct is ringed by MRT stations — Bras Basah, Bencoolen, Dhoby Ghaut, City Hall and Bugis all sit within a short walk of a festival zone. See "Near Me" above for your closest stop.</p>
+    </div>
+  </section>
+
+  <footer>
+    <!-- ART BAND 5 · closing art (a creature or motif to end the guide) — put your <img> inside this div -->
+    <div class="canvas-space tall" id="art-band-5" aria-hidden="true"></div>
+    <div class="brand">Where Legends Unfold</div>
+    <p>Singapore Night Festival 2026 · Presented by HeritageSG, a subsidiary of the National Heritage Board<br>heritage.sg/sgnightfest · #SGNightFest</p>
+    <p style="margin-top:1rem">Programme details accurate as of 15 July 2026 and subject to change — check the official website before you go.</p>
+  </footer>
+</div>
+
+<!-- ===================== STICKY NAV ===================== -->
+<div class="tabbar">
+  <nav aria-label="Section shortcuts">
+    <a href="#map" data-nav="map"><svg><use href="#i-pin"/></svg>Map</a>
+    <a href="#routes" data-nav="routes"><svg><use href="#i-route"/></svg>Trails</a>
+    <a href="#nearme" data-nav="nearme"><svg><use href="#i-train"/></svg>Near Me</a>
+    <a href="#popular" data-nav="popular"><svg><use href="#i-star"/></svg>Popular</a>
+    <a href="#ideas" data-nav="ideas"><svg><use href="#i-compass"/></svg>Ideas</a>
+  </nav>
+</div>
+
+<script>
+(function(){
+  // ---- directory-style 2.5-D landmark blocks ----
+  // Each rect.bld gets extruded into a little building (top + side face);
+  // parks stay flat green with trees; data-roof adds a dome (museum) or spire (CHIJMES).
+  var NS = "http://www.w3.org/2000/svg";
+  var svgm = document.getElementById("precinct-map");
+  Array.prototype.slice.call(svgm.querySelectorAll("rect.bld")).forEach(function(r){
+    var x = +r.getAttribute("x"), y = +r.getAttribute("y"),
+        w = +r.getAttribute("width"), h = +r.getAttribute("height");
+
+    if(r.getAttribute("data-ctx")){
+      r.classList.add("bld-ctx");
+      return;
+    }
+    if(r.getAttribute("data-kind") === "park"){
+      r.classList.add("bld-park");
+      (r.getAttribute("data-trees") || "").split(" ").forEach(function(s){
+        if(!s) return;
+        var p = s.split(","), tx = +p[0], ty = +p[1];
+        var trunk = document.createElementNS(NS, "line");
+        trunk.setAttribute("x1", tx); trunk.setAttribute("y1", ty);
+        trunk.setAttribute("x2", tx); trunk.setAttribute("y2", ty - 4);
+        trunk.setAttribute("class", "tree-trunk");
+        var crown = document.createElementNS(NS, "circle");
+        crown.setAttribute("cx", tx); crown.setAttribute("cy", ty - 6);
+        crown.setAttribute("r", 3);
+        crown.setAttribute("class", "tree-crown");
+        r.parentNode.insertBefore(trunk, r.nextSibling);
+        r.parentNode.insertBefore(crown, trunk.nextSibling);
+      });
+      return;
+    }
+
+    var d = +(r.getAttribute("data-tall") || 4);
+    var top = document.createElementNS(NS, "polygon");
+    top.setAttribute("points",
+      x + "," + y + " " + (x + d) + "," + (y - d) + " " +
+      (x + w + d) + "," + (y - d) + " " + (x + w) + "," + y);
+    top.setAttribute("class", "bld-top");
+    var side = document.createElementNS(NS, "polygon");
+    side.setAttribute("points",
+      (x + w) + "," + y + " " + (x + w + d) + "," + (y - d) + " " +
+      (x + w + d) + "," + (y + h - d) + " " + (x + w) + "," + (y + h));
+    side.setAttribute("class", "bld-side");
+    r.parentNode.insertBefore(top, r);
+    r.parentNode.insertBefore(side, r);
+
+    var roof = r.getAttribute("data-roof");
+    if(roof){
+      var cx = x + w / 2 + d / 2, baseY = y - d;
+      var el = document.createElementNS(NS, "path");
+      if(roof === "dome"){
+        el.setAttribute("d", "M" + (cx - 5) + "," + baseY + " A5,5 0 0 1 " + (cx + 5) + "," + baseY + " Z");
+      } else { // spire (kept short so it stays inside the zone, clear of street lines)
+        el.setAttribute("d", "M" + (cx - 4) + "," + baseY + " L" + cx + "," + (baseY - 7) + " L" + (cx + 4) + "," + baseY + " Z");
+      }
+      el.setAttribute("class", "bld-roof");
+      r.parentNode.insertBefore(el, r);
+    }
+  });
+
+  // ---- 3-D directory strips: a miniature model per stop, laid along each trail ----
+  function poly(parent, pts, cls){
+    var el = document.createElementNS(NS, "polygon");
+    el.setAttribute("points", pts.map(function(p){ return p[0] + "," + p[1]; }).join(" "));
+    el.setAttribute("class", cls);
+    parent.appendChild(el);
+    return el;
+  }
+  // isometric box: cx = visual centre, by = base (near-corner) y
+  function isoBox(g, cx, by, w, d, h){
+    var N = [cx - (w - d) / 2, by],
+        Rt = [N[0] + w, N[1] - w / 2],
+        Lf = [N[0] - d, N[1] - d / 2],
+        Bk = [N[0] + w - d, N[1] - (w + d) / 2];
+    function up(p){ return [p[0], p[1] - h]; }
+    poly(g, [up(N), up(Rt), up(Bk), up(Lf)], "iso-top");
+    poly(g, [Lf, N, up(N), up(Lf)], "iso-left");
+    poly(g, [N, Rt, up(Rt), up(N)], "iso-right");
+    return {N: N, Rt: Rt, Lf: Lf, Bk: Bk, up: up};
+  }
+  function isoTree(g, x, y){
+    var t = document.createElementNS(NS, "line");
+    t.setAttribute("x1", x); t.setAttribute("y1", y);
+    t.setAttribute("x2", x); t.setAttribute("y2", y - 5);
+    t.setAttribute("class", "tree-trunk"); g.appendChild(t);
+    var c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", x); c.setAttribute("cy", y - 8); c.setAttribute("r", 3.5);
+    c.setAttribute("class", "tree-crown"); g.appendChild(c);
+  }
+  function isoPath(g, d, cls){
+    var e = document.createElementNS(NS, "path");
+    e.setAttribute("d", d); e.setAttribute("class", cls);
+    g.appendChild(e);
+  }
+  function isoEll(g, cx, cy, rx, ry, cls){
+    var e = document.createElementNS(NS, "ellipse");
+    e.setAttribute("cx", cx); e.setAttribute("cy", cy);
+    e.setAttribute("rx", rx); e.setAttribute("ry", ry);
+    e.setAttribute("class", cls); g.appendChild(e);
+  }
+
+  var MODELS = {
+    // National Museum: block with gold dome
+    museum: {pinH: 48, draw: function(g, cx, by){
+      var b = isoBox(g, cx, by, 36, 18, 16);
+      var tc = [(b.up(b.N)[0] + b.up(b.Bk)[0]) / 2, (b.up(b.N)[1] + b.up(b.Bk)[1]) / 2];
+      isoPath(g, "M" + (tc[0] - 9) + "," + tc[1] + " A9,8 0 0 1 " + (tc[0] + 9) + "," + tc[1] + " Z", "iso-dome");
+    }},
+    // Fort Canning: green hill, trees, flag
+    hill: {pinH: 48, draw: function(g, cx, by){
+      isoPath(g, "M" + (cx - 28) + "," + by + " C" + (cx - 16) + "," + (by - 34) + " " + (cx + 16) + "," + (by - 34) + " " + (cx + 28) + "," + by + " Z", "iso-hill");
+      isoTree(g, cx - 12, by - 10); isoTree(g, cx + 12, by - 9);
+      var pole = document.createElementNS(NS, "line");
+      pole.setAttribute("x1", cx); pole.setAttribute("y1", by - 25);
+      pole.setAttribute("x2", cx); pole.setAttribute("y2", by - 38);
+      pole.setAttribute("class", "iso-pole"); g.appendChild(pole);
+      poly(g, [[cx, by - 38], [cx + 8, by - 35.5], [cx, by - 33]], "iso-flag");
+    }},
+    // Armenian St: row of shophouses with pitched gold roofs
+    shophouses: {pinH: 40, draw: function(g, cx, by){
+      [-19, -3, 13].forEach(function(off, i){
+        var b = isoBox(g, cx + off, by - (i === 1 ? 2 : 0), 11, 8, 10 + (i === 1 ? 3 : 0));
+        var pN = b.up(b.N), pRt = b.up(b.Rt), pLf = b.up(b.Lf), pBk = b.up(b.Bk);
+        var peakN = [(pN[0] + pRt[0]) / 2, (pN[1] + pRt[1]) / 2 - 5];
+        var peakF = [(pLf[0] + pBk[0]) / 2, (pLf[1] + pBk[1]) / 2 - 5];
+        poly(g, [pLf, pN, peakN, peakF], "iso-roof");
+        poly(g, [pN, pRt, peakN], "iso-roof");
+      });
+    }},
+    // SMU Campus Green: open lawn with trees
+    park: {pinH: 40, draw: function(g, cx, by){
+      var w = 42, d = 22, N = [cx - (w - d) / 2, by];
+      poly(g, [N, [N[0] + w, N[1] - w / 2], [N[0] + w - d, N[1] - (w + d) / 2], [N[0] - d, N[1] - d / 2]], "iso-park");
+      isoTree(g, cx - 8, by - 12); isoTree(g, cx + 6, by - 18); isoTree(g, cx + 16, by - 8);
+    }},
+    // Capitol: classical block with corner rotunda
+    capitol: {pinH: 42, draw: function(g, cx, by){
+      var b = isoBox(g, cx, by, 28, 14, 13);
+      var r = b.up(b.Rt);
+      isoPath(g, "M" + (r[0] - 13) + "," + (r[1] + 1) + " A6.5,6 0 0 1 " + r[0] + "," + (r[1] + 1) + " Z", "iso-dome");
+    }},
+    // Bras Basah Complex: stepped twin slabs
+    complex: {pinH: 50, draw: function(g, cx, by){
+      isoBox(g, cx - 9, by, 14, 11, 22);
+      isoBox(g, cx + 10, by - 1, 13, 11, 14);
+    }},
+    // Oldham Theatre / National Archives: low hall with a pitched gold roof
+    archives: {pinH: 46, draw: function(g, cx, by){
+      var b = isoBox(g, cx, by, 26, 12, 13);
+      var pN = b.up(b.N), pRt = b.up(b.Rt), pLf = b.up(b.Lf), pBk = b.up(b.Bk);
+      var peakN = [(pN[0] + pRt[0]) / 2, (pN[1] + pRt[1]) / 2 - 6];
+      var peakF = [(pLf[0] + pBk[0]) / 2, (pLf[1] + pBk[1]) / 2 - 6];
+      poly(g, [pLf, pN, peakN, peakF], "iso-roof");
+      poly(g, [pN, pRt, peakN], "iso-roof");
+    }},
+    // Bugis St Art Lane: shophouse pair under glowing storm clouds
+    bugis: {pinH: 54, draw: function(g, cx, by){
+      isoBox(g, cx - 15, by, 12, 9, 12);
+      isoBox(g, cx + 15, by, 12, 9, 12);
+      isoEll(g, cx - 2, by - 34, 12, 6, "iso-cloud");
+      isoEll(g, cx + 9, by - 41, 9, 5, "iso-cloud");
+      isoEll(g, cx - 13, by - 42, 7, 4, "iso-cloud");
+    }},
+    // National Library: twin towers
+    library: {pinH: 54, draw: function(g, cx, by){
+      isoBox(g, cx - 9, by, 13, 12, 32);
+      isoBox(g, cx + 9, by - 1, 11, 12, 25);
+    }},
+    // Funan: block with cyan kinetic-wall band
+    funan: {pinH: 42, draw: function(g, cx, by){
+      var b = isoBox(g, cx, by, 28, 14, 12);
+      var pN = b.up(b.N), pRt = b.up(b.Rt);
+      poly(g, [[pN[0], pN[1] + 3], [pRt[0], pRt[1] + 3], [pRt[0], pRt[1] + 5.5], [pN[0], pN[1] + 5.5]], "iso-cyan");
+    }}
+  };
+
+  var TRAILS3D = {
+    culture: [
+      {m: "museum", n: 1, name: ["National", "Museum"]},
+      {m: "hill", n: 2, name: ["Fort", "Canning"]},
+      {m: "shophouses", n: 3, name: ["Armenian", "Street"]},
+      {m: "park", n: 4, name: ["SMU Campus", "Green"]}
+    ],
+    play: [
+      {m: "museum", n: 1, name: ["National", "Museum"]},
+      {m: "archives", n: 5, name: ["Oldham", "Theatre"]},
+      {m: "capitol", n: 6, name: ["Capitol", "Plaza"]},
+      {m: "bugis", n: 13, name: ["Bugis St", "Art Lane"]},
+      {m: "library", n: 12, name: ["National", "Library"]}
+    ],
+    aesthetic: [
+      {m: "museum", n: 1, name: ["National", "Museum"]},
+      {m: "park", n: 4, name: ["SMU Campus", "Green"]},
+      {m: "library", n: 12, name: ["National", "Library"]},
+      {m: "bugis", n: 13, name: ["Bugis St", "Art Lane"]}
+    ],
+    budget: [
+      {m: "funan", n: 8, name: ["Funan", "Kinetic Wall"]},
+      {m: "shophouses", n: 3, name: ["Armenian", "Street"]},
+      {m: "museum", n: 1, name: ["National", "Museum"]},
+      {m: "park", n: 4, name: ["SMU Campus", "Green"]},
+      {m: "library", n: 12, name: ["National", "Library"]},
+      {m: "bugis", n: 13, name: ["Bugis St", "Art Lane"]}
+    ]
+  };
+
+  Array.prototype.slice.call(document.querySelectorAll(".trail-3d")).forEach(function(host){
+    var stops = TRAILS3D[host.getAttribute("data-trail")];
+    if(!stops) return;
+    var slot = 92, by = 96, W = slot * stops.length + 20, H = 138;
+    var s = document.createElementNS(NS, "svg");
+    s.setAttribute("viewBox", "0 0 " + W + " " + H);
+    s.setAttribute("width", W); s.setAttribute("height", H);
+    s.setAttribute("aria-hidden", "true");
+    s.setAttribute("class", "strip-" + host.getAttribute("data-trail"));
+    poly(s, [[6, by + 16], [W - 30, by + 16], [W - 6, by - 14], [30, by - 14]], "iso-ground");
+    var pts = stops.map(function(_, i){ return [slot / 2 + i * slot + 10, by + 8]; });
+    var pl = document.createElementNS(NS, "polyline");
+    pl.setAttribute("points", pts.map(function(p){ return p.join(","); }).join(" "));
+    pl.setAttribute("class", "iso-route");
+    s.appendChild(pl);
+    for(var i = 0; i < pts.length - 1; i++){
+      var mx = (pts[i][0] + pts[i + 1][0]) / 2, my = pts[i][1];
+      poly(s, [[mx - 3, my - 3.5], [mx + 3.5, my], [mx - 3, my + 3.5]], "iso-chev");
+    }
+    stops.forEach(function(st, i){
+      var cx = slot / 2 + i * slot + 10;
+      var g = document.createElementNS(NS, "g");
+      s.appendChild(g);
+      MODELS[st.m].draw(g, cx, by);
+      var pin = document.createElementNS(NS, "g");
+      pin.setAttribute("class", "iso-pin");
+      var cy = by - MODELS[st.m].pinH - 10;
+      var c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", cx); c.setAttribute("cy", cy); c.setAttribute("r", 8.5);
+      pin.appendChild(c);
+      var t = document.createElementNS(NS, "text");
+      t.setAttribute("x", cx); t.setAttribute("y", cy);
+      t.textContent = st.n;
+      pin.appendChild(t);
+      s.appendChild(pin);
+      st.name.forEach(function(line, j){
+        var nt = document.createElementNS(NS, "text");
+        nt.setAttribute("x", cx); nt.setAttribute("y", by + 22 + j * 9);
+        nt.setAttribute("class", "iso-name");
+        nt.textContent = line;
+        s.appendChild(nt);
+      });
+    });
+    host.appendChild(s);
+  });
+
+  var STOPS = [
+    {id:1, name:"National Museum of Singapore", zone:"museum", zoneLabel:"Museum Zone", work:"Tales of Earth and Sea · Birdmen"},
+    {id:2, name:"Fort Canning Hill", zone:"museum", zoneLabel:"Museum Zone", work:"The Lost Legacy of Fort Canning"},
+    {id:3, name:"Armenian Street", zone:"museum", zoneLabel:"Museum Zone", work:"Vikings of the Tropics"},
+    {id:4, name:"SMU Campus Green", zone:"museum", zoneLabel:"Museum Zone", work:"The Dragon's Tooth · You and I, Believing... · Traces"},
+    {id:5, name:"National Archives of Singapore", zone:"museum", zoneLabel:"Museum Zone", work:"Horror Nights @ Oldham Theatre · Legends in Motion: invisible city"},
+    {id:6, name:"Capitol Singapore Outdoor Plaza", zone:"1", zoneLabel:"Zone 1", work:"Once Upon A Time"},
+    {id:7, name:"CHIJMES", zone:"1", zoneLabel:"Zone 1", work:"Craft market &amp; historic-grounds installations"},
+    {id:8, name:"Funan (Kinetic Wall)", zone:"1", zoneLabel:"Zone 1", work:"Rising of Sister Islands"},
+    {id:9, name:"Raffles City Singapore", zone:"1", zoneLabel:"Zone 1", work:"Inter-Light"},
+    {id:10, name:"Waterloo Street arts belt", zone:"2", zoneLabel:"Zone 2", work:"Arts-group performances &amp; exhibitions"},
+    {id:11, name:"The Cathay &amp; Cathay Green", zone:"2", zoneLabel:"Zone 2", work:"MALAM Projection Mapping · When the Water Rose (meets at Temasek Shophouse)"},
+    {id:12, name:"National Library Building Plaza", zone:"3", zoneLabel:"Zone 3", work:"Lovebug · ALIGHT 2.0 Conference"},
+    {id:13, name:"Bugis Street Art Lane", zone:"3", zoneLabel:"Zone 3", work:"Stormy Straits"},
+    {id:14, name:"Bras Basah Complex", zone:"3", zoneLabel:"Zone 3", work:"Xinyao performances &amp; community activations"},
+    {id:15, name:"Stamford Arts Centre", zone:"3", zoneLabel:"Zone 3", work:"Traditional arts &amp; community-led activations"}
+  ];
+
+  var zoneVar = {museum:"var(--z-museum)", "1":"var(--z-1)", "2":"var(--z-2)", "3":"var(--z-3)"};
+  var dirList = document.getElementById("dir-list");
+  STOPS.forEach(function(s){
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="num" style="border-color:'+zoneVar[s.zone]+';color:'+zoneVar[s.zone]+'">'+s.id+'</span>' +
+      '<span><span class="nm">'+s.name+'</span> — <span class="zn">'+s.zoneLabel+' · '+s.work+'</span></span>';
+    dirList.appendChild(li);
+  });
+
+  var chips = document.querySelectorAll(".chip[data-toggle]");
+  var lines = document.querySelectorAll(".route-line");
+  var nodes = document.querySelectorAll(".node");
+
+  function setRoute(route){
+    chips.forEach(function(c){ c.setAttribute("aria-pressed", c.getAttribute("data-toggle") === route ? "true" : "false"); });
+    lines.forEach(function(l){ l.classList.toggle("on", l.getAttribute("data-route") === route); });
+    nodes.forEach(function(n){
+      if(!route){ n.classList.remove("dim"); n.classList.remove("active"); return; }
+      var member = (n.getAttribute("data-routes") || "").split(" ").indexOf(route) > -1;
+      n.classList.toggle("active", member);
+      n.classList.toggle("dim", !member);
+    });
+  }
+
+  chips.forEach(function(c){
+    c.addEventListener("click", function(){ setRoute(c.getAttribute("data-toggle")); });
+  });
+
+  document.querySelectorAll("[data-scrollto]").forEach(function(a){
+    a.addEventListener("click", function(){
+      setRoute(a.getAttribute("data-scrollto"));
+    });
+  });
+
+  setRoute("");
+
+  // in-page navigation: scroll directly to the section on tap.
+  // Layered fallbacks so it works in plain browsers AND sandboxed viewers.
+  var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function jumpTo(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    try{ el.scrollIntoView({behavior: prefersReduced ? "auto" : "smooth", block: "start"}); }
+    catch(e){ try{ el.scrollIntoView(true); }catch(e2){} }
+    // if nothing moved (some viewers ignore scrollIntoView), set scroll positions directly
+    setTimeout(function(){
+      var r = el.getBoundingClientRect();
+      if(r.top > window.innerHeight || r.top < -60){
+        var base = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        var y = r.top + base - 8;
+        try{ window.scrollTo(0, y); }catch(e){}
+        document.documentElement.scrollTop = y;
+        document.body.scrollTop = y;
+        var sc = document.scrollingElement;
+        if(sc) sc.scrollTop = y;
+      }
+    }, 350);
+  }
+  Array.prototype.slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
+    a.addEventListener("click", function(ev){
+      var id = a.getAttribute("href").slice(1);
+      if(!document.getElementById(id)) return;
+      ev.preventDefault();
+      jumpTo(id);
+      try{ if(history && history.replaceState) history.replaceState(null, "", "#" + id); }catch(e){}
+    });
+  });
+
+  // active tab highlight
+  var sections = ["map","routes","popular","ideas","nearme"].map(function(id){ return document.getElementById(id); });
+  var navLinks = document.querySelectorAll(".tabbar a");
+  if("IntersectionObserver" in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var id = e.target.id;
+          navLinks.forEach(function(a){ a.classList.toggle("active", a.getAttribute("data-nav") === id); });
+        }
+      });
+    }, {rootMargin: "-40% 0px -55% 0px"});
+    sections.forEach(function(s){ if(s) obs.observe(s); });
+  }
+})();
+</script>
