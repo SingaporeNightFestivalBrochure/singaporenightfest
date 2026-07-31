@@ -1,7 +1,7 @@
 // Offline support for the SNF 2026 Trail Guide.
 // Upload this file next to index.html — after a visitor's first load,
 // the brochure keeps working even with no mobile signal.
-var CACHE = "snf-guide-v1";
+var CACHE = "snf-guide-v2";
 
 self.addEventListener("install", function(e){
   e.waitUntil(
@@ -19,6 +19,19 @@ self.addEventListener("activate", function(e){
 
 self.addEventListener("fetch", function(e){
   if(e.request.method !== "GET") return;
+  // page loads: network first (always fresh when online), cache when offline
+  if(e.request.mode === "navigate"){
+    e.respondWith(
+      fetch(e.request).then(function(resp){
+        if(resp && resp.ok){
+          var copy = resp.clone();
+          caches.open(CACHE).then(function(c){ c.put("./", copy); });
+        }
+        return resp;
+      }).catch(function(){ return caches.match("./"); })
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(function(cached){
       var network = fetch(e.request).then(function(resp){

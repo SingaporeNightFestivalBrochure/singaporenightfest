@@ -161,7 +161,10 @@
   .bld-label{
     font-family: var(--font-mono); font-size: 6px; fill: rgba(241,236,218,.9); text-anchor:middle; letter-spacing:.02em;
     paint-order: stroke; stroke: rgba(8,22,25,.75); stroke-width: 1.6px; stroke-linejoin: round;
+    pointer-events: none;
   }
+  #precinct-map [data-stop]{ cursor: pointer; }
+  .bld-visited{ fill: rgba(242,105,156,.26) !important; stroke: rgba(242,105,156,.8) !important; }
   .bld-ctx{ fill: rgba(241,236,218,.022); stroke: rgba(241,236,218,.09); }
   .bld-label.ctx{ fill: rgba(241,236,218,.42); font-size: 5.6px; }
   .mrt{ rx:5; }
@@ -173,8 +176,8 @@
   .node.active circle:not(.hit){ fill: var(--ink); stroke: var(--gold); stroke-width: 2.8; filter: drop-shadow(0 0 5px rgba(255,182,72,.9)); }
   .node .hit{ fill: transparent !important; stroke: none !important; filter: none !important; }
   /* visited exhibits: the pin itself becomes a tick */
-  .node.visited circle:not(.hit){ stroke: var(--cyan); filter: drop-shadow(0 0 4px rgba(85,224,168,.7)); }
-  .node.visited text{ fill: var(--cyan); font-size:10.5px; }
+  .node.visited circle:not(.hit){ stroke: var(--magenta); filter: drop-shadow(0 0 4px rgba(242,105,156,.7)); }
+  .node.visited text{ fill: var(--magenta); }
   #precinct-map{ touch-action: manipulation; }
   #precinct-map .node{ -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
   .node.active text{ fill: var(--gold); }
@@ -244,11 +247,14 @@
   .info-pt .hit{ fill:transparent !important; stroke:none !important; }
   .info-pt text{ fill:#eaf6ff; font-family: var(--font-display); font-style:italic; font-weight:700; font-size:8px; text-anchor:middle; dominant-baseline:central; }
   .you-dot circle.core{ fill:#4a9df8; stroke:#fff; stroke-width:1.6; }
-  .you-dot circle.pulse{ fill:none; stroke:#4a9df8; stroke-width:1.5; opacity:.8; }
+  .you-dot circle.pulse{
+    fill:none; stroke:#4a9df8; stroke-width:1.5; opacity:.8;
+    transform-box: fill-box; transform-origin: center;
+  }
   @media (prefers-reduced-motion: no-preference){
     .you-dot circle.pulse{ animation: youpulse 2s ease-out infinite; }
   }
-  @keyframes youpulse{ from{ r:6; opacity:.8; } to{ r:16; opacity:0; } }
+  @keyframes youpulse{ from{ transform: scale(1); opacity:.8; } to{ transform: scale(2.7); opacity:0; } }
   .pin-pop{
     position:absolute; z-index:6; width:216px; background: var(--ink-raised-2);
     border:1px solid var(--gold-dim); border-radius:10px; padding:.6rem .75rem .65rem;
@@ -328,18 +334,19 @@
   /* trail check-off */
   .stops li{ cursor:pointer; }
   .stops li:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; border-radius:6px; }
-  .stops li.done .num{ background: var(--cyan); border-color: var(--cyan); color:#032a25; }
+  .stops li.done .num{ background: var(--magenta); border-color: var(--magenta); color:#2e0a1a; }
   .stops li.done .place{ text-decoration: line-through; opacity:.65; }
   .stops li.done .what, .stops li.done .next-hint{ opacity:.55; }
   .stops li.next .num{ box-shadow: 0 0 9px rgba(255,182,72,.85); }
   .check-hint{ font-family: var(--font-mono); font-size:.66rem; color: var(--muted); letter-spacing:.04em; margin:0 0 .7rem; }
-  .route-progress{ font-family: var(--font-mono); font-size:.68rem; color: var(--cyan); letter-spacing:.04em; margin:-.35rem 0 .8rem; }
+  .route-progress{ font-family: var(--font-mono); font-size:.68rem; color: var(--magenta); letter-spacing:.04em; margin:-.35rem 0 .8rem; }
   .route-progress.none{ color: var(--muted); }
   .pp-tick{
     display:block; width:100%; margin-top:.55rem; padding:.45rem .6rem; cursor:pointer;
-    background: rgba(85,224,168,.12); border:1px solid rgba(85,224,168,.45); border-radius:8px;
-    color: var(--cyan); font-family: var(--font-mono); font-size:.7rem; letter-spacing:.03em;
+    background: rgba(242,105,156,.12); border:1px solid rgba(242,105,156,.45); border-radius:8px;
+    color: var(--magenta); font-family: var(--font-mono); font-size:.7rem; letter-spacing:.03em;
   }
+  .pp-status.vis{ color: var(--magenta); }
   .pp-tick.undo{ background: rgba(255,182,72,.1); border-color: var(--gold-dim); color: var(--gold); }
   .pp-links{ display:flex; gap:1rem; flex-wrap:wrap; }
   /* route cards open as previews; tap to expand */
@@ -537,6 +544,8 @@
   .tabbar a svg{ width:18px; height:18px; }
   .tabbar a.active{ color: var(--gold); }
 
+  html.bigtext{ font-size: 118%; }
+
   @media (min-width:481px){
     body{ background: #051114; }
     .page{ background: var(--ink); box-shadow: 0 0 60px rgba(0,0,0,.5); border-left:1px solid var(--line); border-right:1px solid var(--line); }
@@ -563,7 +572,7 @@
     .page{ max-width: 100%; padding-bottom: 0; border: none; box-shadow: none; }
     .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link, .sect-divider,
     .map-tools, .loc-status, .pin-pop, .you-dot, .map-full,
-    .map-search, .map-hint, .check-hint, .nearme-live, .nearme-locbtn, .expand-hint, #reset-progress{ display: none; }
+    .map-search, .map-hint, .check-hint, .nearme-live, .nearme-locbtn, .expand-hint, #reset-progress, #bigtext-btn{ display: none; }
     .trail-card.collapsed > .trail-3d, .trail-card.collapsed > .stops{ display: block !important; }
     .section{ padding-left: 12mm; padding-right: 12mm; }
     .hero{ padding-left: 12mm; padding-right: 12mm; }
@@ -605,6 +614,7 @@
     <h1>Singapore Night<br>Festival<em>Myths &amp; Legends</em></h1>
     <div class="dates"><b>21 Aug – 5 Sep 2026</b> · Bras Basah.Bugis</div>
     <p class="sub">Your pocket guide to the precinct — pick a trail, follow the line, and let the legends find you. No need to see it all in one night.</p>
+    <button class="chip" id="bigtext-btn" type="button" style="margin-top:1rem">Aa · Larger text</button>
 
   </header>
 
@@ -678,7 +688,7 @@
                data-kind="park" renders flat green with trees; data-roof adds a dome/spire. -->
 
           <!-- Museum Zone -->
-          <rect class="bld" x="10" y="36" width="52" height="104" rx="3" data-kind="park" data-trees="20,132 50,52"/>
+          <rect class="bld" x="10" y="36" width="52" height="104" rx="3" data-kind="park" data-trees="20,132 50,52" data-stop="2"/>
           <text class="bld-label" x="36" y="66">FORT</text>
           <text class="bld-label" x="36" y="74">CANNING</text>
           <text class="bld-label" x="36" y="82">PARK</text>
@@ -687,11 +697,11 @@
           <text class="bld-label ctx" x="89" y="58">WESLEY</text>
           <text class="bld-label ctx" x="89" y="66">CHURCH</text>
 
-          <rect class="bld" x="66" y="86" width="46" height="52" rx="3" data-roof="dome"/>
+          <rect class="bld" x="66" y="86" width="46" height="52" rx="3" data-roof="dome" data-stop="1"/>
           <text class="bld-label" x="89" y="118">NATIONAL</text>
           <text class="bld-label" x="89" y="126">MUSEUM</text>
 
-          <rect class="bld" x="10" y="158" width="52" height="42" rx="3"/>
+          <rect class="bld" x="10" y="158" width="52" height="42" rx="3" data-stop="5"/>
           <text class="bld-label" x="36" y="184">NATIONAL</text>
           <text class="bld-label" x="36" y="192">ARCHIVES</text>
 
@@ -699,11 +709,11 @@
           <text class="bld-label ctx" x="89" y="154">PERANAKAN</text>
           <text class="bld-label ctx" x="89" y="162">MUSEUM</text>
 
-          <rect class="bld" x="64" y="178" width="48" height="44" rx="3"/>
+          <rect class="bld" x="64" y="178" width="48" height="44" rx="3" data-stop="3"/>
           <text class="bld-label" x="88" y="206">ARMENIAN</text>
           <text class="bld-label" x="88" y="214">STREET</text>
 
-          <rect class="bld" x="126" y="100" width="32" height="92" rx="3" data-kind="park" data-trees="134,182 148,134"/>
+          <rect class="bld" x="126" y="100" width="32" height="92" rx="3" data-kind="park" data-trees="134,182 148,134" data-stop="4"/>
           <text class="bld-label" x="152" y="150" transform="rotate(-90 152 150)">SMU CAMPUS GREEN</text>
 
           <rect class="bld" x="10" y="206" width="52" height="26" rx="3" data-ctx="1"/>
@@ -719,25 +729,25 @@
           <text class="bld-label ctx" x="88" y="254">GOOD SHEPHERD</text>
 
           <!-- Zone 1 -->
-          <rect class="bld" x="10" y="292" width="40" height="42" rx="3"/>
+          <rect class="bld" x="10" y="292" width="40" height="42" rx="3" data-stop="8"/>
           <text class="bld-label" x="30" y="318">FUNAN</text>
 
-          <rect class="bld" x="58" y="292" width="46" height="42" rx="3"/>
+          <rect class="bld" x="58" y="292" width="46" height="42" rx="3" data-stop="6"/>
           <text class="bld-label" x="81" y="318">CAPITOL</text>
 
-          <rect class="bld" x="112" y="296" width="42" height="38" rx="3" data-roof="spire"/>
+          <rect class="bld" x="112" y="296" width="42" height="38" rx="3" data-roof="spire" data-stop="7"/>
           <text class="bld-label" x="133" y="318">CHIJMES</text>
 
           <rect class="bld" x="10" y="337" width="70" height="18" rx="3" data-ctx="1"/>
           <text class="bld-label ctx" x="45" y="345">ST ANDREW'S</text>
           <text class="bld-label ctx" x="45" y="352">CATHEDRAL</text>
 
-          <rect class="bld" x="88" y="370" width="66" height="22" rx="3" data-tall="5"/>
+          <rect class="bld" x="88" y="370" width="66" height="22" rx="3" data-tall="5" data-stop="9"/>
           <text class="bld-label" x="128" y="378">RAFFLES</text>
           <text class="bld-label" x="128" y="386">CITY</text>
 
           <!-- Zone 2 -->
-          <rect class="bld" x="174" y="24" width="76" height="28" rx="3"/>
+          <rect class="bld" x="174" y="24" width="76" height="28" rx="3" data-stop="11"/>
           <text class="bld-label" x="223" y="35">THE CATHAY /</text>
           <text class="bld-label" x="223" y="43">CATHAY GREEN</text>
 
@@ -748,7 +758,7 @@
           <text class="bld-label ctx" x="233" y="82">SUNSHINE</text>
           <text class="bld-label ctx" x="233" y="90">PLAZA</text>
 
-          <rect class="bld" x="174" y="120" width="76" height="42" rx="3"/>
+          <rect class="bld" x="174" y="120" width="76" height="42" rx="3" data-stop="10"/>
           <text class="bld-label" x="223" y="138">WATERLOO ST</text>
           <text class="bld-label" x="223" y="146">ARTS BELT</text>
 
@@ -782,14 +792,14 @@
           <text class="bld-label ctx" x="332" y="82">OG</text>
           <text class="bld-label ctx" x="332" y="90">ALBERT</text>
 
-          <rect class="bld" x="268" y="120" width="80" height="34" rx="3"/>
+          <rect class="bld" x="268" y="120" width="80" height="34" rx="3" data-stop="15"/>
           <text class="bld-label" x="314" y="134">STAMFORD</text>
           <text class="bld-label" x="314" y="142">ARTS CENTRE</text>
 
           <rect class="bld" x="268" y="176" width="26" height="44" rx="3" data-ctx="1"/>
           <text class="bld-label ctx" x="280" y="198" transform="rotate(-90 280 198)">ALBERT MKT</text>
 
-          <rect class="bld" x="300" y="176" width="48" height="44" rx="3"/>
+          <rect class="bld" x="300" y="176" width="48" height="44" rx="3" data-stop="13"/>
           <text class="bld-label" x="324" y="205">BUGIS ST</text>
           <text class="bld-label" x="324" y="213">ART LANE</text>
 
@@ -803,12 +813,12 @@
           <text class="bld-label ctx" x="324" y="322">BUGIS</text>
           <text class="bld-label ctx" x="324" y="330">JUNCTION</text>
 
-          <rect class="bld" x="174" y="290" width="36" height="60" rx="3"/>
+          <rect class="bld" x="174" y="290" width="36" height="60" rx="3" data-stop="14"/>
           <text class="bld-label" x="192" y="324">BRAS</text>
           <text class="bld-label" x="192" y="332">BASAH</text>
           <text class="bld-label" x="192" y="340">CPLX</text>
 
-          <rect class="bld" x="212" y="290" width="36" height="60" rx="3" data-tall="5"/>
+          <rect class="bld" x="212" y="290" width="36" height="60" rx="3" data-tall="5" data-stop="12"/>
           <text class="bld-label" x="230" y="324">NATIONAL</text>
           <text class="bld-label" x="230" y="332">LIBRARY</text>
 
@@ -851,7 +861,7 @@
         </svg>
       </div>
 
-      <div class="map-hint">Tap any pin, MRT station or the ⓘ for info, directions &amp; ticking off ✓</div>
+      <div class="map-hint">Tap any exhibit, MRT station or the ⓘ for info, directions &amp; ticking off ✓</div>
 
       <div class="map-tools">
         <button class="chip" id="fs-btn" type="button">⛶ Fullscreen map</button>
@@ -865,7 +875,7 @@
         <span><i class="dot" style="background:var(--z-2)"></i>Zone 2</span>
         <span><i class="dot" style="background:var(--z-3)"></i>Zone 3</span>
         <span><i class="dot dot-info">i</i>Info Point</span>
-        <span><i class="dot dot-info" style="background:#55e0a8;color:#032a25;border-color:#032a25">✓</i>Visited</span>
+        <span><i class="dot" style="background:rgba(242,105,156,.35);border:1px solid #f2699c;border-radius:3px"></i>Visited</span>
       </div>
 
 
@@ -1182,6 +1192,7 @@
     }
 
     var d = +(r.getAttribute("data-tall") || 4);
+    var stopTag = r.getAttribute("data-stop");
     var top = document.createElementNS(NS, "polygon");
     top.setAttribute("points",
       x + "," + y + " " + (x + d) + "," + (y - d) + " " +
@@ -1192,6 +1203,7 @@
       (x + w) + "," + y + " " + (x + w + d) + "," + (y - d) + " " +
       (x + w + d) + "," + (y + h - d) + " " + (x + w) + "," + (y + h));
     side.setAttribute("class", "bld-side");
+    if(stopTag){ top.setAttribute("data-stop", stopTag); side.setAttribute("data-stop", stopTag); }
     r.parentNode.insertBefore(top, r);
     r.parentNode.insertBefore(side, r);
 
@@ -1205,6 +1217,7 @@
         el.setAttribute("d", "M" + (cx - 4) + "," + baseY + " L" + cx + "," + (baseY - 7) + " L" + (cx + 4) + "," + baseY + " Z");
       }
       el.setAttribute("class", "bld-roof");
+      if(stopTag) el.setAttribute("data-stop", stopTag);
       r.parentNode.insertBefore(el, r);
     }
   });
@@ -1541,6 +1554,16 @@
       if(pop && popPinId === n.getAttribute("data-id")){ closePop(); return; } // tap again closes
       showPop(n);
     });
+  });
+
+  // ---- tapping an exhibit's building on the map opens its info card ----
+  svgm.addEventListener("click", function(ev){
+    var el = ev.target;
+    var ds = el.getAttribute ? el.getAttribute("data-stop") : null;
+    if(!ds) return;
+    ev.stopPropagation();
+    if(pop && popPinId === ds){ closePop(); return; }
+    openStopPop(ds);
   });
 
   // ---- MRT stations: tap for full station numbers and directions ----
@@ -1943,9 +1966,10 @@
   function syncVisited(){
     Array.prototype.slice.call(svgm.querySelectorAll(".node")).forEach(function(n){
       var id = n.getAttribute("data-id");
-      var v = !!visitedIds[id];
-      n.classList.toggle("visited", v);
-      n.querySelector("text").textContent = v ? "✓" : id;
+      n.classList.toggle("visited", !!visitedIds[id]);
+    });
+    Array.prototype.slice.call(svgm.querySelectorAll("[data-stop]")).forEach(function(el){
+      el.classList.toggle("bld-visited", !!visitedIds[el.getAttribute("data-stop")]);
     });
     Array.prototype.slice.call(document.querySelectorAll(".trail-card")).forEach(function(card){
       var nextFound = false, doneCount = 0, total = 0;
@@ -2062,6 +2086,20 @@
   }
   window.addEventListener("hashchange", handleStopHash);
   handleStopHash();
+
+  // ---- larger text for easier reading ----
+  var btBtn = document.getElementById("bigtext-btn");
+  if(btBtn){
+    var setBig = function(on){
+      document.documentElement.classList.toggle("bigtext", on);
+      btBtn.textContent = on ? "Aa · Standard text" : "Aa · Larger text";
+      try{ localStorage.setItem("snf-bigtext", on ? "1" : ""); }catch(e){}
+    };
+    btBtn.addEventListener("click", function(){
+      setBig(!document.documentElement.classList.contains("bigtext"));
+    });
+    try{ if(localStorage.getItem("snf-bigtext")) setBig(true); }catch(e){}
+  }
 
   // ---- offline support: registers sw.js if it has been uploaded next to this file ----
   try{
