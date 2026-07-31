@@ -33,6 +33,8 @@
     follow the instruction on that line. A wide, dark image works best;
     it stays fixed while the page scrolls over it.
   · Art bands print in the PDF too, so add your art before exporting.
+  · OFFLINE MODE: upload the companion sw.js file next to this one and the
+    site keeps working with no signal after a visitor's first load.
   ========================================================================
 -->
 <style>
@@ -207,6 +209,49 @@
   @keyframes dash{ to{ stroke-dashoffset: -200; } }
 
   .legend-row{ display:flex; flex-wrap:wrap; gap:.5rem 1rem; margin-top:.9rem; font-size:.72rem; color: var(--muted); font-family: var(--font-mono); }
+  .map-tools{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
+  .loc-status{ font-family: var(--font-mono); font-size:.7rem; color: var(--muted); margin-top:.45rem; min-height:1em; }
+  .map-wrap{ overflow:auto; -webkit-overflow-scrolling:touch; }
+  .map-full{
+    position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+    background: rgba(8,22,25,.55); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
+  }
+  .map-full-inner{ position:relative; width:min(94vw, calc(86vh * 0.9)); aspect-ratio: 9 / 10; }
+  .map-full-inner svg{ width:100%; height:100%; display:block; }
+  .map-full-close{
+    position:fixed; top:14px; right:14px; z-index:101;
+    background: var(--ink-raised-2); color: var(--parchment); border:1px solid var(--line);
+    border-radius:999px; padding:.55rem 1rem; font-family: var(--font-mono); font-size:.78rem; cursor:pointer;
+  }
+  .node{ cursor:pointer; }
+  .node .hit{ fill:transparent; stroke:none; }
+  .node.off > circle:first-of-type{ stroke-dasharray:3 2.5; opacity:.55; filter:none; }
+  .node.off text{ opacity:.55; }
+  .info-pt circle{ fill:#2a6a8f; stroke:#bfe6ff; stroke-width:1; }
+  .info-pt text{ fill:#eaf6ff; font-family: var(--font-display); font-style:italic; font-weight:700; font-size:8px; text-anchor:middle; dominant-baseline:central; }
+  .you-dot circle.core{ fill:#4a9df8; stroke:#fff; stroke-width:1.6; }
+  .you-dot circle.pulse{ fill:none; stroke:#4a9df8; stroke-width:1.5; opacity:.8; }
+  @media (prefers-reduced-motion: no-preference){
+    .you-dot circle.pulse{ animation: youpulse 2s ease-out infinite; }
+  }
+  @keyframes youpulse{ from{ r:6; opacity:.8; } to{ r:16; opacity:0; } }
+  .pin-pop{
+    position:absolute; z-index:6; width:216px; background: var(--ink-raised-2);
+    border:1px solid var(--gold-dim); border-radius:10px; padding:.6rem .75rem .65rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.55); font-size:.78rem;
+  }
+  .pin-pop h5{ font-family: var(--font-body); font-size:.85rem; font-weight:700; color: var(--parchment); margin:0 1.2rem .15rem 0; }
+  .pin-pop .pp-zone{ font-family: var(--font-mono); font-size:.62rem; letter-spacing:.05em; text-transform:uppercase; color: var(--muted); margin-bottom:.3rem; }
+  .pin-pop .pp-work{ color: var(--muted); margin-bottom:.35rem; line-height:1.4; }
+  .pin-pop .pp-status{ font-family: var(--font-mono); font-size:.66rem; }
+  .pin-pop .pp-status.on{ color: var(--cyan); }
+  .pin-pop .pp-status.wait{ color: var(--gold); }
+  .pin-pop .pp-status.offx{ color: var(--magenta); }
+  .pin-pop .pp-close{
+    position:absolute; top:.3rem; right:.45rem; background:none; border:none; color: var(--muted);
+    font-size:.9rem; cursor:pointer; padding:.1rem .2rem; line-height:1;
+  }
+  .trail-meta{ font-family: var(--font-mono); font-size:.68rem; color: var(--muted); letter-spacing:.03em; margin:-.15rem 0 .8rem; }
   .legend-row .dot{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:.35em; vertical-align:middle; }
   .map-key{ font-size:.78rem; color: var(--muted); margin-top:.7rem; line-height:1.55; }
   .map-key b{ color: var(--parchment); font-weight:600; }
@@ -451,7 +496,8 @@
     html, body{ background: #081619; }
     .sky{ position: absolute; }
     .page{ max-width: 100%; padding-bottom: 0; border: none; box-shadow: none; }
-    .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link, .side-art{ display: none; }
+    .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link, .side-art,
+    .map-tools, .loc-status, .pin-pop, .you-dot, .map-full{ display: none; }
     .section{ padding-left: 12mm; padding-right: 12mm; }
     .hero{ padding-left: 12mm; padding-right: 12mm; }
     #map, #routes, #popular, #nearme, #info{ break-before: page; padding-top: 12mm; }
@@ -702,6 +748,9 @@
           <text class="bld-label" x="230" y="324">NATIONAL</text>
           <text class="bld-label" x="230" y="332">LIBRARY</text>
 
+          <!-- information point (per the official festival map) -->
+          <g class="info-pt" transform="translate(142,180)"><circle r="5.5"/><text>i</text></g>
+
           <!-- MRT stations -->
           <rect class="mrt" x="138" y="204" width="56" height="12" rx="5" fill="#fa9e0d"/>
           <text class="mrt-label" x="166" y="212.5">BRAS BASAH</text>
@@ -738,11 +787,18 @@
         </svg>
       </div>
 
+      <div class="map-tools">
+        <button class="chip" id="fs-btn" type="button">⛶ Fullscreen map</button>
+        <button class="chip" id="loc-btn" type="button">📍 Show my location</button>
+      </div>
+      <div class="loc-status" id="loc-status"></div>
+
       <div class="legend-row">
         <span><i class="dot" style="background:var(--z-museum)"></i>Museum Zone</span>
         <span><i class="dot" style="background:var(--z-1)"></i>Zone 1</span>
         <span><i class="dot" style="background:var(--z-2)"></i>Zone 2</span>
         <span><i class="dot" style="background:var(--z-3)"></i>Zone 3</span>
+        <span><i class="dot" style="background:#2a6a8f"></i>Info point</span>
       </div>
 
 
@@ -781,11 +837,12 @@
         <svg style="color:var(--z-museum)"><use href="#i-book"/></svg>
         <div><span class="trail-tag">Culture &amp; Heritage</span><h3>The Storyteller's Trail</h3></div>
       </div>
+      <div class="trail-meta">≈1.5 km · about 2 hrs with stops · includes a steep hill climb</div>
       <p class="trail-if">If you like Singapore's <b>history and folklore</b>, follow this route to experience <b>Tales of Earth and Sea</b> and <b>The Lost Legacy of Fort Canning</b>, and learn how the myths of Bugis seafarers and the ancient kingdom of Singapura still shape the city today.</p>
       <div class="trail-3d" data-trail="culture" aria-hidden="true"></div>
       <ul class="stops">
         <li><span class="num">1</span><span class="place">National Museum of Singapore</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Tales of Earth and Sea — facade projection reinterpreting local folklore. Free.</div><div class="next-hint">↳ Next: take the hill path right behind the museum (~5 min)</div></li>
-        <li><span class="num">2</span><span class="place">Fort Canning Hill</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Lost Legacy of Fort Canning: The Forbidden Hill — 70-min trail through Bukit Larangan. $60, select nights.</div><div class="next-hint">↳ Next: walk back downhill and along Armenian St, past the Peranakan Museum (~7 min)</div></li>
+        <li><span class="num">2</span><span class="place">Fort Canning Hill</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Lost Legacy of Fort Canning: The Forbidden Hill — 70-min trail through Bukit Larangan. $60, select nights. Note: the hill path is a steep climb.</div><div class="next-hint">↳ Next: walk back downhill and along Armenian St, past the Peranakan Museum (~7 min)</div></li>
         <li><span class="num">3</span><span class="place">Armenian Street</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">Vikings of the Tropics — the maritime myths of Bugis seafarers. Free.</div><div class="next-hint">↳ Next: cross Stamford Rd at the museum crossing onto the lawn (~6 min)</div></li>
         <li><span class="num">4</span><span class="place">SMU Campus Green</span><span class="zone-chip zc-museum">Museum Zone</span><div class="what">The Dragon's Tooth &amp; Traces — light art rooted in Singapore Stone lore. Free.</div></li>
       </ul>
@@ -797,6 +854,7 @@
         <svg style="color:var(--cyan)"><use href="#i-hand"/></svg>
         <div><span class="trail-tag">Touch · Step in · Join in</span><h3>The Immersive Trail</h3></div>
       </div>
+      <div class="trail-meta">≈2 km · 2–2.5 hrs with stops · flat, stroller-friendly</div>
       <p class="trail-if">If you'd rather <b>step inside the story than look at it</b>, follow this route to experience the festival's immersive side — roaming creatures, a horror night in a heritage cinema, and artworks you can touch, add to or wander through. Each stop is tagged with what you'll actually get to do.</p>
       <div class="trail-3d" data-trail="play" aria-hidden="true"></div>
       <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
@@ -815,6 +873,7 @@
         <svg style="color:var(--magenta)"><use href="#i-camera"/></svg>
         <div><span class="trail-tag">Most Instagrammable</span><h3>The Aesthetic Trail</h3></div>
       </div>
+      <div class="trail-meta">≈1.5 km · about 1.5 hrs with stops · flat all the way</div>
       <p class="trail-if">If you want <b>the most photogenic corners</b> of the festival, follow this route to experience the grandest facade projection, a glowing bamboo sanctuary and a lane of luminous storm clouds — built for the camera roll.</p>
       <div class="trail-3d" data-trail="aesthetic" aria-hidden="true"></div>
       <ul class="stops">
@@ -831,6 +890,7 @@
         <svg style="color:var(--gold)"><use href="#i-coin"/></svg>
         <div><span class="trail-tag">$0 well spent</span><h3>The Free &amp; Easy Trail</h3></div>
       </div>
+      <div class="trail-meta">≈2 km · 2–3 hrs with stops · flat all the way</div>
       <p class="trail-if">If you're keeping the wallet shut, follow this route to experience <b>six of the festival's best works without spending a cent</b> — including the headline projection itself. Free doesn't mean second-best here.</p>
       <div class="trail-3d" data-trail="budget" aria-hidden="true"></div>
       <div class="trail-3d-hint">◂ drag to walk the route ▸</div>
@@ -1296,22 +1356,36 @@
   });
 
   var STOPS = [
-    {id:1, name:"National Museum of Singapore", zone:"museum", zoneLabel:"Museum Zone", work:"Tales of Earth and Sea · Birdmen"},
-    {id:2, name:"Fort Canning Hill", zone:"museum", zoneLabel:"Museum Zone", work:"The Lost Legacy of Fort Canning"},
-    {id:3, name:"Armenian Street", zone:"museum", zoneLabel:"Museum Zone", work:"Vikings of the Tropics"},
-    {id:4, name:"SMU Campus Green", zone:"museum", zoneLabel:"Museum Zone", work:"The Dragon's Tooth · You and I, Believing... · Traces"},
-    {id:5, name:"National Archives of Singapore", zone:"museum", zoneLabel:"Museum Zone", work:"Horror Nights @ Oldham Theatre · Legends in Motion: invisible city"},
-    {id:6, name:"Capitol Singapore Outdoor Plaza", zone:"1", zoneLabel:"Zone 1", work:"Once Upon A Time"},
-    {id:7, name:"CHIJMES", zone:"1", zoneLabel:"Zone 1", work:"Craft market &amp; historic-grounds installations"},
-    {id:8, name:"Funan (Kinetic Wall)", zone:"1", zoneLabel:"Zone 1", work:"Rising of Sister Islands"},
-    {id:9, name:"Raffles City Singapore", zone:"1", zoneLabel:"Zone 1", work:"Inter-Light"},
-    {id:10, name:"Waterloo Street arts belt", zone:"2", zoneLabel:"Zone 2", work:"Arts-group performances &amp; exhibitions"},
-    {id:11, name:"The Cathay &amp; Cathay Green", zone:"2", zoneLabel:"Zone 2", work:"MALAM Projection Mapping · When the Water Rose (meets at Temasek Shophouse)"},
-    {id:12, name:"National Library Building Plaza", zone:"3", zoneLabel:"Zone 3", work:"Lovebug · ALIGHT 2.0 Conference"},
-    {id:13, name:"Bugis Street Art Lane", zone:"3", zoneLabel:"Zone 3", work:"Stormy Straits"},
-    {id:14, name:"Bras Basah Complex", zone:"3", zoneLabel:"Zone 3", work:"Xinyao performances &amp; community activations"},
-    {id:15, name:"Stamford Arts Centre", zone:"3", zoneLabel:"Zone 3", work:"Traditional arts &amp; community-led activations"}
+    {id:1, name:"National Museum of Singapore", zone:"museum", zoneLabel:"Museum Zone", work:"Tales of Earth and Sea · Birdmen (21–23 Aug only)", t:"Free", lat:1.29659, lng:103.84843},
+    {id:2, name:"Fort Canning Hill", zone:"museum", zoneLabel:"Museum Zone", work:"The Lost Legacy of Fort Canning", t:"$60 ticket · selected nights", d:["08-21","08-22","08-27","08-28","08-29","09-03","09-04","09-05"], lat:1.29440, lng:103.84580},
+    {id:3, name:"Armenian Street", zone:"museum", zoneLabel:"Museum Zone", work:"Vikings of the Tropics", t:"Free", lat:1.29455, lng:103.84900},
+    {id:4, name:"SMU Campus Green", zone:"museum", zoneLabel:"Museum Zone", work:"The Dragon's Tooth · You and I, Believing... · Traces", t:"Free", lat:1.29760, lng:103.84960},
+    {id:5, name:"National Archives of Singapore", zone:"museum", zoneLabel:"Museum Zone", work:"Horror Nights @ Oldham Theatre · Legends in Motion: invisible city", t:"$10–$25 ticket · selected dates", d:["08-21","08-22","08-23","08-28","08-29","08-30","09-04"], lat:1.29380, lng:103.84770},
+    {id:6, name:"Capitol Singapore Outdoor Plaza", zone:"1", zoneLabel:"Zone 1", work:"Once Upon A Time", t:"Free", lat:1.29340, lng:103.85110},
+    {id:7, name:"CHIJMES", zone:"1", zoneLabel:"Zone 1", work:"Craft market &amp; historic-grounds installations", t:"Free", lat:1.29530, lng:103.85220},
+    {id:8, name:"Funan (Kinetic Wall)", zone:"1", zoneLabel:"Zone 1", work:"Rising of Sister Islands", t:"Free", lat:1.29140, lng:103.84960},
+    {id:9, name:"Raffles City Singapore", zone:"1", zoneLabel:"Zone 1", work:"Inter-Light", t:"Free", lat:1.29330, lng:103.85340},
+    {id:10, name:"Waterloo Street arts belt", zone:"2", zoneLabel:"Zone 2", work:"Arts-group performances &amp; exhibitions", t:"Free", lat:1.29900, lng:103.85130},
+    {id:11, name:"The Cathay &amp; Cathay Green", zone:"2", zoneLabel:"Zone 2", work:"MALAM Projection Mapping · When the Water Rose (meets at Temasek Shophouse)", t:"MALAM free · Water Rose $35", lat:1.29960, lng:103.84770},
+    {id:12, name:"National Library Building Plaza", zone:"3", zoneLabel:"Zone 3", work:"Lovebug · ALIGHT 2.0 Conference", t:"Free", lat:1.29750, lng:103.85410},
+    {id:13, name:"Bugis Street Art Lane", zone:"3", zoneLabel:"Zone 3", work:"Stormy Straits", t:"Free", lat:1.30010, lng:103.85520},
+    {id:14, name:"Bras Basah Complex", zone:"3", zoneLabel:"Zone 3", work:"Xinyao performances &amp; community activations", t:"Free", lat:1.29680, lng:103.85360},
+    {id:15, name:"Stamford Arts Centre", zone:"3", zoneLabel:"Zone 3", work:"Traditional arts &amp; community-led activations", t:"Free", lat:1.29970, lng:103.85300}
   ];
+
+  // ---- festival calendar: what's on tonight ----
+  var FEST_START = "2026-08-21", FEST_END = "2026-09-05";
+  function todayStr(){
+    var n = new Date();
+    function p(v){ return (v < 10 ? "0" : "") + v; }
+    return n.getFullYear() + "-" + p(n.getMonth() + 1) + "-" + p(n.getDate());
+  }
+  function stopTonight(s){
+    var t = todayStr();
+    if(t < FEST_START || t > FEST_END) return {cls:"wait", txt:"Festival runs 21 Aug – 5 Sep 2026"};
+    if(s.d && s.d.indexOf(t.slice(5)) === -1) return {cls:"offx", txt:"Not on tonight — selected dates only"};
+    return {cls:"on", txt:"On tonight · until 11pm (12mn Fri &amp; Sat)"};
+  }
 
   var zoneVar = {museum:"var(--z-museum)", "1":"var(--z-1)", "2":"var(--z-2)", "3":"var(--z-3)"};
   var dirList = document.getElementById("dir-list");
@@ -1320,6 +1394,155 @@
     li.innerHTML = '<span class="num" style="border-color:'+zoneVar[s.zone]+';color:'+zoneVar[s.zone]+'">'+s.id+'</span>' +
       '<span><span class="nm">'+s.name+'</span> — <span class="zn">'+s.zoneLabel+' · '+s.work+'</span></span>';
     dirList.appendChild(li);
+  });
+
+  // ---- tappable pins with an info popover ----
+  var mapWrap = svgm.parentNode; // .map-wrap (position:relative)
+  var pop = null;
+  function closePop(){ if(pop){ pop.parentNode.removeChild(pop); pop = null; } }
+  function stopById(id){ for(var i = 0; i < STOPS.length; i++) if(STOPS[i].id === +id) return STOPS[i]; return null; }
+  Array.prototype.slice.call(svgm.querySelectorAll(".node")).forEach(function(n){
+    var hit = document.createElementNS(NS, "circle");
+    hit.setAttribute("r", 13); hit.setAttribute("class", "hit");
+    n.appendChild(hit);
+    n.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      var s = stopById(n.getAttribute("data-id"));
+      if(!s) return;
+      closePop();
+      var host = svgm.parentNode;
+      var st = stopTonight(s);
+      pop = document.createElement("div");
+      pop.className = "pin-pop";
+      pop.innerHTML = '<button class="pp-close" type="button" aria-label="Close">✕</button>' +
+        '<h5>' + s.id + " · " + s.name + '</h5>' +
+        '<div class="pp-zone">' + s.zoneLabel + ' · ' + s.t + '</div>' +
+        '<div class="pp-work">' + s.work + '</div>' +
+        '<div class="pp-status ' + st.cls + '">' + st.txt + '</div>';
+      host.appendChild(pop);
+      pop.querySelector(".pp-close").addEventListener("click", function(e){ e.stopPropagation(); closePop(); });
+      var wr = host.getBoundingClientRect(), nr = n.getBoundingClientRect();
+      var px = nr.left - wr.left + (host.scrollLeft || 0) + nr.width / 2;
+      var py = nr.top - wr.top + (host.scrollTop || 0);
+      var left = Math.max(4, Math.min(px - 108, host.scrollWidth - 222));
+      pop.style.left = left + "px";
+      var popH = pop.offsetHeight;
+      pop.style.top = (py > popH + 26 ? py - popH - 16 : py + 22) + "px";
+    });
+  });
+  document.addEventListener("click", function(ev){
+    if(pop && !pop.contains(ev.target)) closePop();
+  });
+
+  // ---- grey out pins whose programmes are not on tonight (during the festival) ----
+  (function(){
+    var t = todayStr();
+    if(t < FEST_START || t > FEST_END) return;
+    STOPS.forEach(function(s){
+      if(s.d && s.d.indexOf(t.slice(5)) === -1){
+        var n = svgm.querySelector('.node[data-id="' + s.id + '"]');
+        if(n) n.classList.add("off");
+      }
+    });
+  })();
+
+  // ---- fullscreen map: map fills the screen, site blurred behind ----
+  var fsBtn = document.getElementById("fs-btn");
+  var fsOverlay = null;
+  function closeFs(){
+    if(!fsOverlay) return;
+    closePop();
+    mapWrap.appendChild(svgm);
+    document.body.removeChild(fsOverlay);
+    fsOverlay = null;
+    document.body.style.overflow = "";
+  }
+  fsBtn.addEventListener("click", function(){
+    closePop();
+    fsOverlay = document.createElement("div");
+    fsOverlay.className = "map-full";
+    var inner = document.createElement("div");
+    inner.className = "map-full-inner";
+    var closeBtn = document.createElement("button");
+    closeBtn.className = "map-full-close"; closeBtn.type = "button";
+    closeBtn.textContent = "✕ Close map";
+    fsOverlay.appendChild(inner);
+    fsOverlay.appendChild(closeBtn);
+    document.body.appendChild(fsOverlay);
+    inner.appendChild(svgm);
+    document.body.style.overflow = "hidden";
+    closeBtn.addEventListener("click", closeFs);
+    fsOverlay.addEventListener("click", function(ev){ if(ev.target === fsOverlay) closeFs(); });
+  });
+  document.addEventListener("keydown", function(ev){ if(ev.key === "Escape") closeFs(); });
+
+  // ---- "you are here": GPS mapped onto the schematic via anchor blending ----
+  var locBtn = document.getElementById("loc-btn");
+  var locStatus = document.getElementById("loc-status");
+  var ANCHORS = STOPS.map(function(s){
+    var n = svgm.querySelector('.node[data-id="' + s.id + '"]');
+    var tr = n.getAttribute("transform").match(/([\d.]+),([\d.]+)/);
+    return {x:+tr[1], y:+tr[2], lat:s.lat, lng:s.lng};
+  }).concat([
+    {x:166, y:210, lat:1.29690, lng:103.85070},  // Bras Basah MRT
+    {x:260, y:110, lat:1.29850, lng:103.85010},  // Bencoolen MRT
+    {x:329, y:280, lat:1.30050, lng:103.85580},  // Bugis MRT
+    {x:35,  y:384, lat:1.29310, lng:103.85230}   // City Hall MRT
+  ]);
+  function gpsToMap(lat, lng){
+    var sw = 0, sx = 0, sy = 0, best = 1e9;
+    for(var i = 0; i < ANCHORS.length; i++){
+      var a = ANCHORS[i];
+      var d2 = (a.lat - lat) * (a.lat - lat) + (a.lng - lng) * (a.lng - lng);
+      if(d2 < best) best = d2;
+      if(d2 < 1e-12) return {x:a.x, y:a.y, near:true};
+      var w = 1 / (d2 * d2);
+      sw += w; sx += w * a.x; sy += w * a.y;
+    }
+    return {x:sx / sw, y:sy / sw, near: Math.sqrt(best) < 0.006}; // ~650 m from nearest anchor
+  }
+  var youDot = null, watchId = null;
+  function placeDot(lat, lng){
+    var p = gpsToMap(lat, lng);
+    if(!p.near){
+      locStatus.textContent = "You're outside the precinct — this map covers Bras Basah.Bugis only.";
+      if(youDot){ youDot.parentNode.removeChild(youDot); youDot = null; }
+      return;
+    }
+    if(!youDot){
+      youDot = document.createElementNS(NS, "g");
+      youDot.setAttribute("class", "you-dot");
+      var pulse = document.createElementNS(NS, "circle");
+      pulse.setAttribute("class", "pulse"); pulse.setAttribute("r", 6);
+      var core = document.createElementNS(NS, "circle");
+      core.setAttribute("class", "core"); core.setAttribute("r", 5);
+      youDot.appendChild(pulse); youDot.appendChild(core);
+      svgm.appendChild(youDot);
+    }
+    youDot.setAttribute("transform", "translate(" + p.x.toFixed(1) + "," + p.y.toFixed(1) + ")");
+    locStatus.textContent = "That's you — the blue dot (approximate; the map is schematic).";
+  }
+  locBtn.addEventListener("click", function(){
+    if(watchId !== null){
+      navigator.geolocation.clearWatch(watchId); watchId = null;
+      if(youDot){ youDot.parentNode.removeChild(youDot); youDot = null; }
+      locBtn.textContent = "📍 Show my location";
+      locStatus.textContent = "";
+      return;
+    }
+    if(!("geolocation" in navigator)){
+      locStatus.textContent = "Location isn't available on this device or browser.";
+      return;
+    }
+    locStatus.textContent = "Locating…";
+    locBtn.textContent = "📍 Hide my location";
+    watchId = navigator.geolocation.watchPosition(function(pos){
+      placeDot(pos.coords.latitude, pos.coords.longitude);
+    }, function(){
+      locStatus.textContent = "Couldn't get your location — check location permission for this site.";
+      locBtn.textContent = "📍 Show my location";
+      watchId = null;
+    }, {enableHighAccuracy:true, maximumAge:10000, timeout:15000});
   });
 
   var chips = document.querySelectorAll(".chip[data-toggle]");
@@ -1397,5 +1620,11 @@
     }, {rootMargin: "-40% 0px -55% 0px"});
     sections.forEach(function(s){ if(s) obs.observe(s); });
   }
+  // ---- offline support: registers sw.js if it has been uploaded next to this file ----
+  try{
+    if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    }
+  }catch(e){}
 })();
 </script>
