@@ -520,10 +520,13 @@
   .tabbar{
     position: fixed; left:0; right:0; bottom:0; z-index: 50;
     display:flex; justify-content:center;
+    transform: translateZ(0);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    background: #0e2227;
   }
   .tabbar nav{
     width:100%; max-width:480px; display:grid; grid-template-columns: repeat(5,1fr);
-    background: rgba(14,34,39,0.92); backdrop-filter: blur(8px);
+    background: #0e2227;
     border-top:1px solid var(--line);
   }
   .tabbar a{
@@ -830,21 +833,21 @@
           <path class="route-line" data-route="popular" d="M36,120 L89,98 L188,36"/>
 
           <!-- numbered stops -->
-          <g class="node" data-id="1" data-routes="culture play aesthetic budget popular" transform="translate(89,98)"><circle/><text>1</text></g>
-          <g class="node" data-id="2" data-routes="culture popular" transform="translate(36,120)"><circle/><text>2</text></g>
-          <g class="node" data-id="3" data-routes="culture budget" transform="translate(89,190)"><circle/><text>3</text></g>
-          <g class="node" data-id="4" data-routes="culture aesthetic budget" transform="translate(142,112)"><circle/><text>4</text></g>
-          <g class="node" data-id="5" data-routes="play" transform="translate(36,170)"><circle/><text>5</text></g>
-          <g class="node" data-id="6" data-routes="play" transform="translate(81,302)"><circle/><text>6</text></g>
-          <g class="node" data-id="7" data-routes="" transform="translate(133,302)"><circle/><text>7</text></g>
-          <g class="node" data-id="8" data-routes="budget" transform="translate(30,302)"><circle/><text>8</text></g>
-          <g class="node" data-id="9" data-routes="" transform="translate(104,379)"><circle/><text>9</text></g>
-          <g class="node" data-id="10" data-routes="" transform="translate(188,132)"><circle/><text>10</text></g>
-          <g class="node" data-id="11" data-routes="popular" transform="translate(188,36)"><circle/><text>11</text></g>
-          <g class="node" data-id="12" data-routes="play aesthetic budget" transform="translate(230,302)"><circle/><text>12</text></g>
-          <g class="node" data-id="13" data-routes="play aesthetic budget" transform="translate(312,190)"><circle/><text>13</text></g>
-          <g class="node" data-id="14" data-routes="" transform="translate(191,302)"><circle/><text>14</text></g>
-          <g class="node" data-id="15" data-routes="" transform="translate(281,137)"><circle/><text>15</text></g>
+          <g class="node" data-id="1" data-routes="culture play aesthetic budget popular" transform="translate(89,98)"><circle r="9"/><text>1</text></g>
+          <g class="node" data-id="2" data-routes="culture popular" transform="translate(36,120)"><circle r="9"/><text>2</text></g>
+          <g class="node" data-id="3" data-routes="culture budget" transform="translate(89,190)"><circle r="9"/><text>3</text></g>
+          <g class="node" data-id="4" data-routes="culture aesthetic budget" transform="translate(142,112)"><circle r="9"/><text>4</text></g>
+          <g class="node" data-id="5" data-routes="play" transform="translate(36,170)"><circle r="9"/><text>5</text></g>
+          <g class="node" data-id="6" data-routes="play" transform="translate(81,302)"><circle r="9"/><text>6</text></g>
+          <g class="node" data-id="7" data-routes="" transform="translate(133,302)"><circle r="9"/><text>7</text></g>
+          <g class="node" data-id="8" data-routes="budget" transform="translate(30,302)"><circle r="9"/><text>8</text></g>
+          <g class="node" data-id="9" data-routes="" transform="translate(104,379)"><circle r="9"/><text>9</text></g>
+          <g class="node" data-id="10" data-routes="" transform="translate(188,132)"><circle r="9"/><text>10</text></g>
+          <g class="node" data-id="11" data-routes="popular" transform="translate(188,36)"><circle r="9"/><text>11</text></g>
+          <g class="node" data-id="12" data-routes="play aesthetic budget" transform="translate(230,302)"><circle r="9"/><text>12</text></g>
+          <g class="node" data-id="13" data-routes="play aesthetic budget" transform="translate(312,190)"><circle r="9"/><text>13</text></g>
+          <g class="node" data-id="14" data-routes="" transform="translate(191,302)"><circle r="9"/><text>14</text></g>
+          <g class="node" data-id="15" data-routes="" transform="translate(281,137)"><circle r="9"/><text>15</text></g>
         </svg>
       </div>
 
