@@ -4,6 +4,9 @@
 <meta name="theme-color" content="#081619">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23081619'/%3E%3Cpath d='M63 18a34 34 0 1 0 19 43A27 27 0 0 1 63 18Z' fill='%23ffb648'/%3E%3Ccircle cx='30' cy='30' r='3' fill='%23f1ecda'/%3E%3Ccircle cx='42' cy='20' r='2' fill='%2355e0a8'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SNF 2026">
 <meta name="description" content="Myths &amp; Legends · 21 Aug – 5 Sep 2026 · Bras Basah.Bugis. Interactive precinct map, colour-coded trails, live location and walking directions.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Singapore Night Festival 2026 — Pocket Trail Guide">
@@ -123,6 +126,20 @@
   .hero .dates{ font-family: var(--font-mono); color: var(--parchment); font-size: .95rem; margin-top:.6rem; }
   .hero .dates b{ color: var(--gold); }
   .hero .sub{ color: var(--muted); max-width: 34em; margin: .9rem 0 0; font-size: .95rem; }
+
+  /* ---------- Tonight banner (filled by script) ---------- */
+  .tonight{
+    margin-top:1.15rem; padding:.85rem 1rem .9rem; border-radius:14px;
+    background: linear-gradient(180deg, rgba(255,182,72,.10), transparent 75%), var(--ink-raised);
+    border:1px solid var(--gold-dim);
+  }
+  .tonight .tn-head{ font-family: var(--font-mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; color: var(--gold); margin-bottom:.3rem; }
+  .tonight .tn-main{ font-size:.9rem; color: var(--parchment); margin:0; }
+  .tonight .tn-main b{ color: var(--gold); }
+  .tonight ul{ list-style:none; margin:.5rem 0 0; padding:0; display:grid; gap:.4rem; }
+  .tonight li{ font-size:.8rem; color: var(--muted); padding-left:1.1em; position:relative; line-height:1.4; }
+  .tonight li::before{ content:"✦"; position:absolute; left:0; top:.28em; color: var(--gold); font-size:.7em; }
+  .tonight li b{ color: var(--parchment); font-weight:600; }
 
   /* ---------- How-to strip ---------- */
   .howto{ display:grid; grid-template-columns: repeat(3,1fr); gap:.6rem; margin-top:1.2rem; }
@@ -578,7 +595,7 @@
     .page{ max-width: 100%; padding-bottom: 0; border: none; box-shadow: none; }
     .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link, .sect-divider,
     .map-tools, .loc-status, .pin-pop, .you-dot, .map-full,
-    .map-search, .map-hint, .check-hint, .nearme-live, .nearme-locbtn, .expand-hint, #reset-progress, #bigtext-btn, .howto .step-go{ display: none; }
+    .map-search, .map-hint, .check-hint, .nearme-live, .nearme-locbtn, .expand-hint, #reset-progress, #bigtext-btn, .howto .step-go, .tonight{ display: none; }
     .trail-card.collapsed > .trail-3d, .trail-card.collapsed > .stops{ display: block !important; }
     .section{ padding-left: 12mm; padding-right: 12mm; }
     .hero{ padding-left: 12mm; padding-right: 12mm; }
@@ -621,6 +638,9 @@
     <div class="dates"><b>21 Aug – 5 Sep 2026</b> · Bras Basah.Bugis</div>
     <p class="sub">Your pocket guide to the precinct — pick a trail, follow the line, and let the legends find you. No need to see it all in one night.</p>
     <button class="chip" id="bigtext-btn" type="button" style="margin-top:1rem">Aa · Larger text</button>
+
+    <!-- filled in by the calendar script at the bottom: countdown / tonight's specials -->
+    <div class="tonight" id="tonight" hidden></div>
 
   </header>
 
@@ -872,6 +892,7 @@
       <div class="map-tools">
         <button class="chip" id="fs-btn" type="button">⛶ Fullscreen map</button>
         <button class="chip" id="loc-btn" type="button">📍 Show my location</button>
+        <button class="chip" id="wake-btn" type="button" aria-pressed="false">🔆 Keep screen awake</button>
       </div>
       <div class="loc-status" id="loc-status"></div>
 
@@ -1467,7 +1488,13 @@
 
   // ---- festival calendar: what's on tonight ----
   var FEST_START = "2026-08-21", FEST_END = "2026-09-05";
+  var dayOverride = null; // preview any date by adding ?ftoday=2026-08-22 to the address
+  try{
+    var fq = (location.search.match(/[?&]ftoday=(\d{4}-\d{2}-\d{2})/) || [])[1];
+    if(fq) dayOverride = fq;
+  }catch(e){}
   function todayStr(){
+    if(dayOverride) return dayOverride;
     var n = new Date();
     function p(v){ return (v < 10 ? "0" : "") + v; }
     return n.getFullYear() + "-" + p(n.getMonth() + 1) + "-" + p(n.getDate());
@@ -1478,6 +1505,52 @@
     if(s.d && s.d.indexOf(t.slice(5)) === -1) return {cls:"offx", txt:"Not on tonight — selected dates only"};
     return {cls:"on", txt:"On tonight · until 11pm (12mn Fri &amp; Sat)"};
   }
+
+  /* EDIT: selected-date programmes shown in the banner under the cover.
+     Each entry: what it is, its time/price line, and the exact dates it runs.
+     Dates and times are from the official annex (accurate as of 15 Jul 2026). */
+  var SPECIALS = [
+    {name:"Festival Launch — the National Museum fa\u00e7ade lights up", time:"from 8pm · free", dates:["2026-08-21"]},
+    {name:"Birdmen street theatre from the National Museum", time:"7.45pm &amp; 9.15pm · free", dates:["2026-08-21","2026-08-22","2026-08-23"]},
+    {name:"The Lost Legacy of Fort Canning at Fort Canning Hill", time:"8pm · ticketed $60", dates:["2026-08-21","2026-08-22","2026-08-27","2026-08-28","2026-08-29","2026-09-03","2026-09-04","2026-09-05"]},
+    {name:"Horror Nights @ Oldham Theatre", time:"7.30pm · $10", dates:["2026-08-22","2026-08-23","2026-08-29","2026-08-30"]},
+    {name:"Legends in Motion: invisible city walking trail", time:"6pm &amp; 8.30pm · $25", dates:["2026-08-21","2026-08-28","2026-09-04"]},
+    {name:"Legends in Motion: When the Water Rose", time:"7.30pm · $35", dates:["2026-08-22","2026-08-29","2026-09-05"]},
+    {name:"ALIGHT 2.0 Conference at the National Library (daytime)", time:"10am – 5pm · free with registration", dates:["2026-08-29"]}
+  ];
+
+  // ---- fill the banner under the cover: countdown / tonight's specials ----
+  (function(){
+    var el = document.getElementById("tonight");
+    if(!el) return;
+    var t = todayStr();
+    function toDate(s){ return new Date(+s.slice(0,4), +s.slice(5,7) - 1, +s.slice(8,10)); }
+    var html = "";
+    if(t < FEST_START){
+      var nights = Math.round((toDate(FEST_START) - toDate(t)) / 86400000);
+      html = '<div class="tn-head">\ud83c\udfee Counting down</div><div class="tn-main">' +
+        (nights === 1
+          ? 'The festival opens <b>tomorrow night</b> — Friday 21 August, 7.30pm!'
+          : 'The festival opens in <b>' + nights + ' nights</b> — Friday 21 August 2026, 7.30pm.') +
+        '</div>';
+    } else if(t > FEST_END){
+      html = '<div class="tn-head">\ud83c\udfee Until next time</div>' +
+        '<div class="tn-main">Singapore Night Festival 2026 has ended — thank you for wandering with us. See you at the next edition!</div>';
+    } else {
+      var dow = toDate(t).getDay();
+      var hours = (dow === 5 || dow === 6) ? "7.30pm – midnight" : "7.30pm – 11pm";
+      var list = SPECIALS.filter(function(s){ return s.dates.indexOf(t) > -1; });
+      html = '<div class="tn-head">\ud83c\udfee On tonight</div><div class="tn-main">The lights are on tonight, <b>' + hours + '</b>.';
+      if(list.length){
+        html += ' Happening today only:</div><ul>' +
+          list.map(function(s){ return '<li><b>' + s.name + '</b> · ' + s.time + '</li>'; }).join('') + '</ul>';
+      } else {
+        html += ' Every nightly artwork and zone is open — no selected-date extras today.</div>';
+      }
+    }
+    el.innerHTML = html;
+    el.hidden = false;
+  })();
 
   var zoneVar = {museum:"var(--z-museum)", "1":"var(--z-1)", "2":"var(--z-2)", "3":"var(--z-3)"};
   var dirList = document.getElementById("dir-list");
@@ -1864,6 +1937,37 @@
   function toggleLocate(){ if(watchId !== null){ stopLocate(); } else { startLocate(); } }
   locBtn.addEventListener("click", toggleLocate);
   locBtn2.addEventListener("click", toggleLocate);
+
+  // ---- keep the screen awake while navigating (opt-in; uses extra battery) ----
+  var wakeBtn = document.getElementById("wake-btn");
+  if(wakeBtn && !("wakeLock" in navigator)){
+    wakeBtn.style.display = "none"; // browser can't do it: hide rather than break
+  } else if(wakeBtn){
+    var wakeLock = null, wantWake = false;
+    var wakeLabel = function(){
+      wakeBtn.textContent = wantWake ? "\ud83d\udd06 Screen staying awake — tap to stop" : "\ud83d\udd06 Keep screen awake";
+      wakeBtn.setAttribute("aria-pressed", wantWake ? "true" : "false");
+    };
+    var acquireWake = function(){
+      navigator.wakeLock.request("screen").then(function(lock){
+        wakeLock = lock;
+        lock.addEventListener("release", function(){ wakeLock = null; });
+      }).catch(function(){
+        wantWake = false;
+        wakeLabel();
+      });
+    };
+    wakeBtn.addEventListener("click", function(){
+      wantWake = !wantWake;
+      if(wantWake){ acquireWake(); }
+      else if(wakeLock){ wakeLock.release(); wakeLock = null; }
+      wakeLabel();
+    });
+    // the browser drops the lock whenever the tab is hidden — take it back on return
+    document.addEventListener("visibilitychange", function(){
+      if(wantWake && document.visibilityState === "visible" && !wakeLock) acquireWake();
+    });
+  }
 
   var chips = document.querySelectorAll(".chip[data-toggle]");
   var lines = document.querySelectorAll(".route-line");
