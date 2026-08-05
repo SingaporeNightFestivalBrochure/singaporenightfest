@@ -130,6 +130,10 @@
   .howto div{ background: var(--ink-raised); border:1px solid var(--line); border-radius:10px; padding:.7rem .5rem .6rem; text-align:center; }
   .howto svg{ width:20px; height:20px; color: var(--cyan); }
   .howto p{ font-size:.68rem; color: var(--muted); margin:.35rem 0 0; line-height:1.25; }
+  .howto [data-goto]{ cursor:pointer; -webkit-tap-highlight-color: rgba(255,182,72,.18); transition: border-color .15s ease, transform .15s ease; }
+  .howto [data-goto]:hover, .howto [data-goto]:focus-visible{ border-color: var(--gold-dim); transform: translateY(-2px); }
+  .howto .step-go{ display:block; margin-top:.4rem; font-family: var(--font-mono); font-size:.56rem; letter-spacing:.06em; color: var(--gold); opacity:.85; }
+  footer a.site-link{ color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
 
   /* ---------- Map ---------- */
   .map-card{
@@ -247,6 +251,8 @@
   .info-pt .hit{ fill:transparent !important; stroke:none !important; }
   .info-pt text{ fill:#eaf6ff; font-family: var(--font-display); font-style:italic; font-weight:700; font-size:8px; text-anchor:middle; dominant-baseline:central; }
   .you-dot circle.core{ fill:#4a9df8; stroke:#fff; stroke-width:1.6; }
+  .you-dot .hdg{ fill: rgba(74,157,248,.38); display:none; }
+  .you-dot.hdg-on .hdg{ display:block; }
   .you-dot circle.pulse{
     fill:none; stroke:#4a9df8; stroke-width:1.5; opacity:.8;
     transform-box: fill-box; transform-origin: center;
@@ -572,7 +578,7 @@
     .page{ max-width: 100%; padding-bottom: 0; border: none; box-shadow: none; }
     .tabbar, .route-toggles, details.directory, .trail-3d-hint, .pdf-btn, .view-map-link, .sect-divider,
     .map-tools, .loc-status, .pin-pop, .you-dot, .map-full,
-    .map-search, .map-hint, .check-hint, .nearme-live, .nearme-locbtn, .expand-hint, #reset-progress, #bigtext-btn{ display: none; }
+    .map-search, .map-hint, .check-hint, .nearme-live, .nearme-locbtn, .expand-hint, #reset-progress, #bigtext-btn, .howto .step-go{ display: none; }
     .trail-card.collapsed > .trail-3d, .trail-card.collapsed > .stops{ display: block !important; }
     .section{ padding-left: 12mm; padding-right: 12mm; }
     .hero{ padding-left: 12mm; padding-right: 12mm; }
@@ -626,9 +632,9 @@
     <h2>Three Steps, One Easy Night</h2>
     <p class="lede">The festival spans four zones and eighteen-plus works — more than anyone needs in one visit. This guide gets you there in three steps.</p>
     <div class="howto">
-      <div><span class="step-n">1</span><p>Get your bearings on the precinct map</p></div>
-      <div><span class="step-n">2</span><p>Not sure where to begin? Pick out any of our suggested interest-based routes and give them a shot!</p></div>
-      <div><span class="step-n">3</span><p>Start at your MRT and follow the numbered stops</p></div>
+      <div data-goto="map" role="link" tabindex="0" aria-label="Jump to step 1 — the precinct map"><span class="step-n">1</span><p>Get your bearings on the precinct map</p><span class="step-go">Tap to jump &#8595;</span></div>
+      <div data-goto="routes" role="link" tabindex="0" aria-label="Jump to step 2 — suggested routes"><span class="step-n">2</span><p>Not sure where to begin? Pick out any of our suggested interest-based routes and give them a shot!</p><span class="step-go">Tap to jump &#8595;</span></div>
+      <div data-goto="nearme" role="link" tabindex="0" aria-label="Jump to step 3 — start from your MRT"><span class="step-n">3</span><p>Start at your MRT and follow the numbered stops</p><span class="step-go">Tap to jump &#8595;</span></div>
     </div>
   </section>
 
@@ -1141,8 +1147,8 @@
 
   <footer>
     <div class="brand">Where Legends Unfold</div>
-    <p>Singapore Night Festival 2026 · Presented by HeritageSG, a subsidiary of the National Heritage Board<br>heritage.sg/sgnightfest · #SGNightFest</p>
-    <p style="margin-top:1rem">Programme details accurate as of 15 July 2026 and subject to change — check the official website before you go.</p>
+    <p>Singapore Night Festival 2026 · Presented by HeritageSG, a subsidiary of the National Heritage Board<br><a class="site-link" href="https://www.heritage.sg/sgnightfest" target="_blank" rel="noopener">heritage.sg/sgnightfest</a> · #SGNightFest</p>
+    <p style="margin-top:1rem">Programme details accurate as of 15 July 2026 and subject to change — check the <a class="site-link" href="https://www.heritage.sg/sgnightfest" target="_blank" rel="noopener">official website</a> before you go.</p>
   </footer>
 </div>
 
@@ -1721,6 +1727,54 @@
     return {x:sx / sw, y:sy / sw, near: Math.sqrt(best) < 0.006}; // ~650 m from nearest anchor
   }
   var youDot = null, watchId = null;
+
+  // ---- compass: rotate a beam on the dot to show which way you're facing ----
+  var hdgWrap = null, hdgOn = false, hdgBound = false;
+  function setHeading(deg){
+    if(!youDot || !hdgWrap || deg == null || isNaN(deg)) return;
+    hdgWrap.setAttribute("transform", "rotate(" + (((deg % 360) + 360) % 360).toFixed(0) + ")");
+    if(!hdgOn){
+      hdgOn = true;
+      youDot.classList.add("hdg-on");
+      locStatus.textContent = "That's you — the blue dot. The beam shows roughly which way you're facing.";
+    }
+  }
+  function onOrient(e){
+    var hd = null;
+    if(typeof e.webkitCompassHeading === "number" && !isNaN(e.webkitCompassHeading)){
+      hd = e.webkitCompassHeading; // iOS: already a compass heading
+    }else if(e.absolute === true && typeof e.alpha === "number"){
+      hd = 360 - e.alpha; // Android: alpha is counter-clockwise from north
+    }
+    if(hd == null) return;
+    // account for the screen being rotated (landscape)
+    var ang = 0;
+    try{
+      if(screen.orientation && typeof screen.orientation.angle === "number") ang = screen.orientation.angle;
+      else if(typeof window.orientation === "number") ang = window.orientation;
+    }catch(err){}
+    setHeading(hd + ang);
+  }
+  function bindCompass(){
+    if(hdgBound) return;
+    // iOS asks permission for motion sensors — must be triggered by the user's tap
+    if(typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function"){
+      DeviceOrientationEvent.requestPermission().then(function(state){
+        if(state === "granted" && !hdgBound){
+          hdgBound = true;
+          window.addEventListener("deviceorientation", onOrient, true);
+        }
+      }).catch(function(){});
+      return;
+    }
+    hdgBound = true;
+    if("ondeviceorientationabsolute" in window){
+      window.addEventListener("deviceorientationabsolute", onOrient, true);
+    }else{
+      window.addEventListener("deviceorientation", onOrient, true);
+    }
+  }
+
   function placeDot(lat, lng){
     var p = gpsToMap(lat, lng);
     if(!p.near){
@@ -1731,15 +1785,21 @@
     if(!youDot){
       youDot = document.createElementNS(NS, "g");
       youDot.setAttribute("class", "you-dot");
+      hdgOn = false;
+      hdgWrap = document.createElementNS(NS, "g");
+      var beam = document.createElementNS(NS, "path");
+      beam.setAttribute("class", "hdg");
+      beam.setAttribute("d", "M0,0 L-7.5,-15 A16.5,16.5 0 0 1 7.5,-15 Z");
+      hdgWrap.appendChild(beam);
       var pulse = document.createElementNS(NS, "circle");
       pulse.setAttribute("class", "pulse"); pulse.setAttribute("r", 6);
       var core = document.createElementNS(NS, "circle");
       core.setAttribute("class", "core"); core.setAttribute("r", 5);
-      youDot.appendChild(pulse); youDot.appendChild(core);
+      youDot.appendChild(hdgWrap); youDot.appendChild(pulse); youDot.appendChild(core);
       svgm.appendChild(youDot);
     }
     youDot.setAttribute("transform", "translate(" + p.x.toFixed(1) + "," + p.y.toFixed(1) + ")");
-    locStatus.textContent = "That's you — the blue dot (approximate; the map is schematic).";
+    if(!hdgOn) locStatus.textContent = "That's you — the blue dot (approximate; the map is schematic).";
   }
   function metersBetween(lat1, lng1, lat2, lng2){
     var dLat = (lat2 - lat1) * 111320;
@@ -1789,9 +1849,12 @@
     }
     locStatus.textContent = "Locating…";
     setLocLabels(true);
+    bindCompass();
     watchId = navigator.geolocation.watchPosition(function(pos){
       placeDot(pos.coords.latitude, pos.coords.longitude);
       updateNearest(pos.coords.latitude, pos.coords.longitude);
+      // some phones report a heading while you walk — use it if the compass hasn't
+      if(pos.coords.heading != null && !isNaN(pos.coords.heading)) setHeading(pos.coords.heading);
     }, function(){
       locStatus.textContent = "Couldn't get your location — check location permission for this site.";
       setLocLabels(false);
@@ -1858,6 +1921,19 @@
       }
     }, 350);
   }
+  // ---- the three step cards jump straight to their section ----
+  Array.prototype.slice.call(document.querySelectorAll(".howto [data-goto]")).forEach(function(card){
+    var go = function(){
+      var id = card.getAttribute("data-goto");
+      jumpTo(id);
+      try{ if(history && history.replaceState) history.replaceState(null, "", "#" + id); }catch(e){}
+    };
+    card.addEventListener("click", go);
+    card.addEventListener("keydown", function(ev){
+      if(ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar"){ ev.preventDefault(); go(); }
+    });
+  });
+
   Array.prototype.slice.call(document.querySelectorAll('a[href^="#"]')).forEach(function(a){
     a.addEventListener("click", function(ev){
       var id = a.getAttribute("href").slice(1);
