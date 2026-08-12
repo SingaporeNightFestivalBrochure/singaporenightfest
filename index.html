@@ -377,6 +377,29 @@
   .check-hint{ font-family: var(--font-mono); font-size:.66rem; color: var(--muted); letter-spacing:.04em; margin:0 0 .7rem; }
   .route-progress{ font-family: var(--font-mono); font-size:.68rem; color: var(--magenta); letter-spacing:.04em; margin:-.35rem 0 .8rem; }
   .route-progress.none{ color: var(--muted); }
+  /* visited-places list in the "Your progress" card */
+  .visited-list .vl-count{ font-family: var(--font-mono); font-size:.7rem; color: var(--magenta); letter-spacing:.04em; margin:0 0 .5rem; }
+  .visited-list .vl-empty{ font-size:.8rem; color: var(--muted); font-style:italic; margin:0 0 .7rem; }
+  .visited-list ul{ list-style:none; margin:0 0 .8rem; padding:0; display:flex; flex-direction:column; gap:.4rem; }
+  .visited-list li{ display:flex; align-items:stretch; gap:.4rem; }
+  .vl-go{
+    flex:1; display:flex; align-items:center; gap:.55rem; text-align:left; cursor:pointer;
+    background: var(--ink-raised-2); border:1px solid var(--line); border-radius:10px;
+    padding:.45rem .55rem; color:inherit; font:inherit; min-width:0;
+  }
+  .vl-go:active{ transform:scale(.99); }
+  .vl-num{
+    flex:0 0 auto; width:1.35rem; height:1.35rem; border-radius:50%;
+    border:1.5px solid var(--magenta); color: var(--magenta);
+    display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700;
+  }
+  .vl-txt{ min-width:0; }
+  .vl-txt b{ display:block; font-size:.8rem; line-height:1.25; }
+  .vl-txt small{ display:block; color: var(--muted); font-size:.68rem; margin-top:.1rem; line-height:1.3; }
+  .vl-x{
+    flex:0 0 auto; width:2rem; cursor:pointer; background: var(--ink-raised-2);
+    border:1px solid var(--line); border-radius:10px; color: var(--muted); font-size:.8rem;
+  }
   .pp-tick{
     display:block; width:100%; margin-top:.55rem; padding:.45rem .6rem; cursor:pointer;
     background: rgba(242,105,156,.12); border:1px solid rgba(242,105,156,.45); border-radius:8px;
@@ -1176,7 +1199,8 @@
 
     <div class="info-card">
       <h4>Your progress</h4>
-      <p style="font-size:.86rem; margin:0 0 .6rem">Exhibits you tick off are remembered on this phone — handy across several festival nights.</p>
+      <p style="font-size:.86rem; margin:0 0 .6rem">Exhibits you tick off are remembered on this phone — handy across several festival nights. Everything you’ve visited so far is listed here.</p>
+      <div class="visited-list" id="visited-list"></div>
       <button class="chip" id="reset-progress" type="button">↺ Reset my visited ticks</button>
     </div>
 
@@ -2226,6 +2250,40 @@ var STOP_PHOTOS = {
       }
       prog.textContent = "✓ " + doneCount + " of " + total + " visited";
       prog.classList.toggle("none", doneCount === 0);
+    });
+    renderVisitedList();
+  }
+  // ---- "Your progress" card: list every place ticked as visited ----
+  var vlHost = document.getElementById("visited-list");
+  function renderVisitedList(){
+    if(!vlHost) return;
+    var done = STOPS.filter(function(s){ return !!visitedIds[String(s.id)]; });
+    if(!done.length){
+      vlHost.innerHTML = '<p class="vl-empty">Nothing ticked off yet — mark an exhibit as visited from its map pin or a route, and it will show up here.</p>';
+      return;
+    }
+    var html = '<div class="vl-count">✓ ' + done.length + ' of ' + STOPS.length + ' places visited</div><ul>';
+    done.forEach(function(s){
+      html += '<li>' +
+        '<button class="vl-go" type="button" data-id="' + s.id + '" title="Show on the map">' +
+          '<span class="vl-num">✓</span>' +
+          '<span class="vl-txt"><b>' + s.id + ' · ' + s.name + '</b><small>' + s.zoneLabel + ' — ' + s.work + '</small></span>' +
+        '</button>' +
+        '<button class="vl-x" type="button" data-id="' + s.id + '" title="Mark as not visited" aria-label="Mark as not visited">✕</button>' +
+      '</li>';
+    });
+    vlHost.innerHTML = html + '</ul>';
+  }
+  if(vlHost){
+    vlHost.addEventListener("click", function(ev){
+      var x = ev.target.closest ? ev.target.closest(".vl-x") : null;
+      if(x){ toggleVisited(x.getAttribute("data-id")); return; }
+      var g = ev.target.closest ? ev.target.closest(".vl-go") : null;
+      if(g){
+        var id = g.getAttribute("data-id");
+        try{ svgm.scrollIntoView({block:"center"}); }catch(e){}
+        setTimeout(function(){ openStopPop(id); }, 450);
+      }
     });
   }
   function toggleVisited(id){
